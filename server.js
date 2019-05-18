@@ -22,6 +22,11 @@ const express = require('express');
 const fetch = require('node-fetch');
 const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 
+//SM
+const dotenv = require('dotenv');
+dotenv.config();
+console.log("Env key: "+process.env.DARKSKY_API_KEY)
+
 // CODELAB: Change this to add a delay (ms) before the server responds.
 const FORECAST_DELAY = 0;
 
@@ -140,15 +145,20 @@ function generateFakeForecast(location) {
  */
 function getForecast(req, resp) {
   const location = req.params.location || '40.7720232,-73.9732319';
-  const url = `${BASE_URL}/${API_KEY}/${location}`;
+  const url = `${BASE_URL}/${API_KEY}/${location}?lang=it&units=ca`;
+  console.log("Request url: "+url)
   fetch(url).then((resp) => {
+    console.log("! Data received from DarkSky")
+    // console.log(resp)
     return resp.json();
   }).then((data) => {
+    // console.log("Data :"+data)
     setTimeout(() => {
       resp.json(data);
     }, FORECAST_DELAY);
   }).catch((err) => {
     console.error('Dark Sky API Error:', err.message);
+    console.error(err)
     resp.json(generateFakeForecast(location));
   });
 }
@@ -189,5 +199,6 @@ function startServer() {
     console.log('Local DevServer Started on port 8000...');
   });
 }
+
 
 startServer();

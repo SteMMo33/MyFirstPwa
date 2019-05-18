@@ -146,7 +146,9 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  return fetch(`/forecast/${coords}`)
+  var url = `/forecast/${coords}`;
+  console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"] - URL:"+url)
+  return fetch(url)
       .then((response) => {
         return response.json();
       })
@@ -164,9 +166,11 @@ function getForecastFromNetwork(coords) {
 function getForecastFromCache(coords) {
   // CODELAB: Add code to get weather forecast from the caches object.
   if (!('caches' in window)) {
+    console.log("No caches trovate");
     return null;
   }
   const url = `${window.location.origin}/forecast/${coords}`;
+  console.log("Cache: "+url)
   return caches.match(url)
       .then((response) => {
         if (response) {
@@ -250,6 +254,7 @@ function loadLocationList() {
       locations = {};
     }
   }
+  // Dati di default se non trovati altri salvataggi in localStorage
   if (!locations || Object.keys(locations).length === 0) {
     const key = '40.7720232,-73.9732319';
     locations = {};
@@ -270,10 +275,8 @@ function init() {
   // Set up the event handlers for all of the buttons.
   document.getElementById('butRefresh').addEventListener('click', updateData);
   document.getElementById('butAdd').addEventListener('click', toggleAddDialog);
-  document.getElementById('butDialogCancel')
-      .addEventListener('click', toggleAddDialog);
-  document.getElementById('butDialogAdd')
-      .addEventListener('click', addLocation);
+  document.getElementById('butDialogCancel').addEventListener('click', toggleAddDialog);
+  document.getElementById('butDialogAdd').addEventListener('click', addLocation);
 }
 
 init();
