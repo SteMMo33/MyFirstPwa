@@ -64,6 +64,7 @@ self.addEventListener('install', (evt) => {
 
 self.addEventListener('activate', (evt) => {
   console.log('[ServiceWorker] Activate');
+
   // CODELAB: Remove previous cached data from disk.
   evt.waitUntil(
     caches.keys().then((keyList) => {
@@ -81,6 +82,7 @@ self.addEventListener('activate', (evt) => {
 self.addEventListener('fetch', (evt) => {
   console.log('[ServiceWorker] Fetch', evt.request.url);
   // CODELAB: Add fetch event handler here.
+  /* Original code
   if (evt.request.mode !== 'navigate') {
     // Not a page navigation, bail.
     return;
@@ -93,5 +95,32 @@ self.addEventListener('fetch', (evt) => {
                   return cache.match('offline.html');
                 });
           })
+  ); */
+
+  if (evt.request.url.includes('/forecast/')) {
+    console.log('[Service Worker] Fetch (data)', evt.request.url);
+    evt.respondWith(
+        caches.open(DATA_CACHE_NAME).then((cache) => {
+          return fetch(evt.request)
+              .then((response) => {
+                // If the response was good, clone it and store it in the cache.
+                if (response.status === 200) {
+                  cache.put(evt.request.url, response.clone());
+                }
+                return response;
+              }).catch((err) => {
+                // Network request failed, try to get it from the cache.
+                return cache.match(evt.request);
+              });
+        }));
+    return;
+  }
+  evt.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(evt.request)
+            .then((response) => {
+              return response || fetch(evt.request);
+            });
+      })
   );
 });

@@ -31,6 +31,10 @@
   <link rel="manifest" href="/manifest.json">
 
   <!-- CODELAB: Add iOS meta tags and icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Weather PWA">
+  <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
 
   <!-- CODELAB: Add description here -->
   <meta name="description" content="A sample weather app">
@@ -79,7 +83,7 @@
         <div class="visual">
           <div class="icon"></div>
           <div class="temperature">
-            <span class="value"></span><span class="scale">°F</span>
+            <span class="value"></span><span class="scale">°C</span>
           </div>
         </div>
         <div class="description">
@@ -223,8 +227,7 @@
           });
       });
     }
-    else
-      console.log("No serviceWorker");
+    else console.log("No support for serviceWorker");
   </script>
 
 </body>

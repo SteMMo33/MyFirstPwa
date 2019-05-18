@@ -48,10 +48,12 @@ Link : https://deanhume.com/displaying-a-new-version-available-progressive-web-a
 Link: https://colmenerodigital.com/blog/implementing-pwa-update-notification/
 
 
-### Come debuggare app ?
+## Come debuggare app ?
 Lo strumento principale per fare debug della app è Chrome DevTool che interagisce con Chrome.
 
 Un altro tool per la verifica della 'bontà' dell'applicazione è LightHouse, sempre da usare all'interno di Chrome. Dà utilissime informazioni sulla compatibilità e completezza della PWA.
+
+Anche Firefox ha il supporto per i ServiceWorkers (49+) ma normalmente è disattivato. Deve essere abilitato nella pagina **about:config** alla voce **dom.serviceWorkers.enable**.
 
 #### Mia soluzione
 Come prima soluzione ilorogetto è corredato da un semplice server sviluppato in Javascript per nodeJS.
