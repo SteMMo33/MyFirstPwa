@@ -96,7 +96,8 @@ self.addEventListener('fetch', (evt) => {
                 });
           })
   ); */
-
+  
+  //SM Nuova gestione con il recupero dei dati in cache
   if (evt.request.url.includes('/forecast/')) {
     console.log('[Service Worker] Fetch (data)', evt.request.url);
     evt.respondWith(

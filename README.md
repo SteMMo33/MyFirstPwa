@@ -21,6 +21,10 @@ techniques. Your app will:
 * ho installato l'app sul cellulare puntando il browser sull'indirizzo web del hosting. L'app si è installata tra le applicazioni normali ed ha creato un'icona sul desktop.
 * Modificato il progetto ed eseguito il deploy
 * L'app si è aggiornata sul cellulare senza notifica
+* Testare se l'app funziona anche su un server HTTPS diverso da quello di Google - soprattutto per l'aggiornamento della app
+* Perchè non funziona se lanciato sul server di Google ? Perchè richiede la fetch in locale https://myfirstpwa-37305.web.app/forecast/40.7720232,-73.9732319 e non al server remoto (su PC lo esegue nodejs!!). 
+In ogni caso viene generato un errore 404 che non viene gestito correttamente ..
+
 ## Dati Meteo
 * Aggiunto in lista anche la posizione di Felino. La richiesta in pagina web è la seguente (con temperature in °C):
 https://darksky.net/forecast/44.69,10.24/ca12/en
@@ -39,13 +43,6 @@ npm install dotenv
 ```
 
 ### Come cambiare versione dell'app ?? TBD
-
-### Notifica per aggiornamento app
-Link: https://medium.com/progressive-web-apps/pwa-create-a-new-update-available-notification-using-service-workers-18be9168d717
-
-Link : https://deanhume.com/displaying-a-new-version-available-progressive-web-app/
-
-Link: https://colmenerodigital.com/blog/implementing-pwa-update-notification/
 
 
 ## Come debuggare app ?
