@@ -200,8 +200,7 @@ function getForecastCard(location) {
   const newCard = document.getElementById('weather-template').cloneNode(true);
   newCard.querySelector('.location').textContent = location.label;
   newCard.setAttribute('id', id);
-  newCard.querySelector('.remove-city')
-      .addEventListener('click', removeLocation);
+  newCard.querySelector('.remove-city').addEventListener('click', removeLocation);
   document.querySelector('main').appendChild(newCard);
   newCard.removeAttribute('hidden');
   return newCard;
