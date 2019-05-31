@@ -25,6 +25,18 @@ techniques. Your app will:
 * Perchè non funziona se lanciato sul server di Google ? Perchè richiede la fetch in locale https://myfirstpwa-37305.web.app/forecast/40.7720232,-73.9732319 e non al server remoto (su PC lo esegue nodejs!!). 
 In ogni caso viene generato un errore 404 che non viene gestito correttamente ..
 
+Lancio del server locale con ```node server.js``` - il server si pone in attesa sulla porta 8000.
+La connessione va fatta con http://localhost:8000/index.html - Nota: NON https !!
+
+
+## Firebase
+
+Comando per il deploy:
+
+```
+firebase deploy
+```
+
 ## Dati Meteo
 * Aggiunto in lista anche la posizione di Felino. La richiesta in pagina web è la seguente (con temperature in °C):
 https://darksky.net/forecast/44.69,10.24/ca12/en
@@ -34,7 +46,20 @@ https://darksky.net/forecast/44.69,10.24/ca12/en
 
 La app sembra non richiedere i dati al server DarkSky in quanto non definisce una URL assoluta, ma relativa al sito corrente (???).
 
-La richiesta dei dati viene eseguita da server.js !?!? Forse per evitare il problema del CORS ?? Ma poi l'app sul mobile come fa ????
+La richiesta dei dati viene eseguita da server.js !?!? Forse per evitare il problema del CORS ?? Ma poi l'app sul mobile come fa ??
+Risposta dell'autore ad una mia richiesta su GitHub:
+```
+Unfortunately - due to the CORS requirements of the Dark Sky API, you need to use the node server to proxy the data.
+```
+
+Il problema CORS è un rpblema insito nel sistema di protezione di un browser che non consente di regola di fare richieste cross-dominio (diverso protocollo, indirizzo o porta): vedere https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+```
+A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, and port) than its own origin.
+...
+For security reasons, browsers restrict cross-origin HTTP requests initiated from within scripts. For example, XMLHttpRequest and the Fetch API follow the same-origin policy. This means that a web application using those APIs can only request HTTP resources from the same origin the application was loaded from, unless the response from the other origin includes the right CORS headers.
+
+```
+
 
 Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
 Sembra essere necessario installare il plugin dotnet di node con:

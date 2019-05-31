@@ -62,6 +62,7 @@ self.addEventListener('install', (evt) => {
   self.skipWaiting();
 });
 
+
 self.addEventListener('activate', (evt) => {
   console.log('[ServiceWorker] Activate');
 

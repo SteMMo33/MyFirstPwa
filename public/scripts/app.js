@@ -89,7 +89,9 @@ function renderForecast(card, data) {
   cardLastUpdatedElem.textContent = data.currently.time;
 
   // Render the forecast data into the card.
-  card.querySelector('.description').textContent = data.currently.summary;
+  card.querySelector('.description').textContent = 
+    data.currently.summary;
+  if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
       .fromSeconds(data.currently.time)
       .setZone(data.timezone)
@@ -115,6 +117,7 @@ function renderForecast(card, data) {
       .setZone(data.timezone)
       .toFormat('t');
   card.querySelector('.current .sunset .value').textContent = sunset;
+  card.querySelector('.current .pressure .value').textContent = data.currently.pressure;
 
   // Render the next 7 days.
   const futureTiles = card.querySelectorAll('.future .oneday');
@@ -146,9 +149,17 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  var url = `/forecast/${coords}`;
+  //SM
+  var myHeaders = new Headers();
+  var myInit = { method: 'GET',
+               headers: myHeaders,
+               mode: 'cors',
+               cache: 'default' };
+
+  var server = "http://192.168.5.70"
+  var url = server + `/forecast/${coords}`;
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"] - URL:"+url)
-  return fetch(url)
+  return fetch(url, myInit)
       .then((response) => {
         return response.json();
       })
@@ -245,6 +256,7 @@ function saveLocationList(locations) {
  * @return {Array}
  */
 function loadLocationList() {
+  // Guarda in LocalStorage se ci sono posti salvati
   let locations = localStorage.getItem('locationList');
   if (locations) {
     try {
