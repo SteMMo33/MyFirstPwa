@@ -60,7 +60,29 @@ For security reasons, browsers restrict cross-origin HTTP requests initiated fro
 
 ```
 
+```
+Fonte: https://www.joshmorony.com/dealing-with-cors-cross-origin-resource-sharing-in-ionic-applications/
+The Solution for CORS Issues
 
+The best way to deal with CORS is to abide by the rules of the browser and implement CORS correctly. That means enabling CORS on the server you are making a request to.
+...
+Exactly how you enable CORS depends on your server. In general, you need to add a header to the server response that looks like this:
+
+Access-Control-Allow-Origin: *
+
+I will list these workarounds in my order of preference from best to worst.
+
+1. Proxy requests through an additional server
+2. Proxy requests through native code
+3. Downgrade to UIWebView (not recommended)
+
+```
+
+Soluzione:
+
+Cambio server e provo a richiedere dati a https://openweathermap.org/API.
+
+## Problema chiave
 Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
 Sembra essere necessario installare il plugin dotnet di node con:
 ```
