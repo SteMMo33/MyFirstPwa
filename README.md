@@ -26,7 +26,8 @@ techniques. Your app will:
 In ogni caso viene generato un errore 404 che non viene gestito correttamente ..
 
 Lancio del server locale con ```node server.js``` - il server si pone in attesa sulla porta 8000.
-La connessione va fatta con http://localhost:8000/index.html - Nota: NON https !!
+
+### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
 
 ## Firebase
@@ -82,6 +83,19 @@ Soluzione:
 
 Cambio server e provo a richiedere dati a https://openweathermap.org/API.
 
+# OpenWeather
+## Autenticazione
+http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY} 
+
+## Modalità: Current weather data
+https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon} 
+
+## Modalità: Forecast
+https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml
+
+
+# DarkSky
+
 ## Problema chiave
 Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
 Sembra essere necessario installare il plugin dotnet di node con:
@@ -112,12 +126,6 @@ node server.js
 ```
 
 
-## What you'll learn
-
-* How to create and add a web app manifest
-* How to provide a simple offline experience
-* How to provide a full offline experience
-* How to make your app installable
 
 ## Getting started
 

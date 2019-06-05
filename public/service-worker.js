@@ -19,7 +19,7 @@
 
 // CODELAB: Update cache names any time any of the cached files change.
 const CACHE_NAME = 'static-cache-v2';
-const DATA_CACHE_NAME = 'data-cache-v1';
+const DATA_CACHE_NAME = 'data-cache-v2';
 
 // CODELAB: Add list of files to cache here.
 const FILES_TO_CACHE = [
@@ -81,7 +81,9 @@ self.addEventListener('activate', (evt) => {
 });
 
 self.addEventListener('fetch', (evt) => {
-  console.log('[ServiceWorker] Fetch', evt.request.url);
+  console.log('[ServiceWorker] Fetch ', evt.request.url);
+  console.log('[ServiceWorker] Mode ', evt.request.mode);
+
   // CODELAB: Add fetch event handler here.
   /* Original code
   if (evt.request.mode !== 'navigate') {
@@ -99,7 +101,9 @@ self.addEventListener('fetch', (evt) => {
   ); */
   
   //SM Nuova gestione con il recupero dei dati in cache
-  if (evt.request.url.includes('/forecast/')) {
+  // if (evt.request.url.includes('/forecast/')) 
+  if (evt.request.url.includes('openweathermap')) 
+  {
     console.log('[Service Worker] Fetch (data)', evt.request.url);
     evt.respondWith(
         caches.open(DATA_CACHE_NAME).then((cache) => {
@@ -121,6 +125,7 @@ self.addEventListener('fetch', (evt) => {
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(evt.request)
             .then((response) => {
+              console.log("caches open match")
               return response || fetch(evt.request);
             });
       })

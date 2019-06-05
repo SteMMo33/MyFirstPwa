@@ -72,8 +72,10 @@ function removeLocation(evt) {
  * @param {Object} data Weather forecast data to update the element with.
  */
 function renderForecast(card, data) {
+
   if (!data) {
     // There's no data, skip the update.
+    console.log("Render skipped!")
     return;
   }
 
@@ -82,43 +84,59 @@ function renderForecast(card, data) {
   const cardLastUpdated = cardLastUpdatedElem.textContent;
   const lastUpdated = parseInt(cardLastUpdated);
 
+  /*
+  https://api.openweathermap.org/data/2.5/weather?lat=44.695333&lon=10.241556&APPID=b82ec2f9c61a9f11fbe81ec3d5100227
+
+  {
+    "coord":{"lon":10.24,"lat":44.7},
+    "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
+    "base":"stations",
+    "main":{"temp":300.14,"pressure":1010,"humidity":57,"temp_min":298.71,"temp_max":301.48},
+    "visibility":10000,
+    "wind":{"speed":2.1,"deg":340},
+    "clouds":{"all":0},
+    "dt":1559732035,
+    "sys":{"type":1,"id":6744,"message":0.0062,"country":"IT","sunrise":1559705711,"sunset":1559761203},
+    "timezone":7200,
+    "id":3177125,
+    "name":"Felino",
+    "cod":200
+  }
+*/
+
   // If the data on the element is newer, skip the update.
-  if (lastUpdated >= data.currently.time) {
+  // if (lastUpdated >= data.currently.time) {
+  if (lastUpdated >= data.dt) {
+    console.log("Render skipped for time")
     return;
   }
-  cardLastUpdatedElem.textContent = data.currently.time;
+  // cardLastUpdatedElem.textContent = data.currently.time;
+  cardLastUpdatedElem.textContent = data.dt;
 
   // Render the forecast data into the card.
-  card.querySelector('.description').textContent = 
-    data.currently.summary;
-  if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
+  card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
+  // if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
-      .fromSeconds(data.currently.time)
+      .fromSeconds(data.dt /*data.currently.time*/)
       .setZone(data.timezone)
       .toFormat('DDDD t');
   card.querySelector('.date').textContent = forecastFrom;
-  card.querySelector('.current .icon')
-      .className = `icon ${data.currently.icon}`;
-  card.querySelector('.current .temperature .value')
-      .textContent = Math.round(data.currently.temperature);
-  card.querySelector('.current .humidity .value')
-      .textContent = Math.round(data.currently.humidity * 100);
-  card.querySelector('.current .wind .value')
-      .textContent = Math.round(data.currently.windSpeed);
-  card.querySelector('.current .wind .direction')
-      .textContent = Math.round(data.currently.windBearing);
-  const sunrise = luxon.DateTime
-      .fromSeconds(data.daily.data[0].sunriseTime)
-      .setZone(data.timezone)
-      .toFormat('t');
-  card.querySelector('.current .sunrise .value').textContent = sunrise;
-  const sunset = luxon.DateTime
-      .fromSeconds(data.daily.data[0].sunsetTime)
-      .setZone(data.timezone)
-      .toFormat('t');
-  card.querySelector('.current .sunset .value').textContent = sunset;
-  card.querySelector('.current .pressure .value').textContent = data.currently.pressure;
 
+  
+  // card.querySelector('.current .icon').className = `icon ${data.currently.icon}`;
+  card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
+  card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
+  card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
+  // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
+  
+  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise).setZone(data.timezone).toFormat('t');
+  card.querySelector('.current .sunrise .value').textContent = sunrise;
+
+  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset).setZone(data.timezone).toFormat('t');
+  card.querySelector('.current .sunset .value').textContent = sunset;
+
+  card.querySelector('.current .pressure .value').textContent = data.main.pressure;
+/*
   // Render the next 7 days.
   const futureTiles = card.querySelectorAll('.future .oneday');
   futureTiles.forEach((tile, index) => {
@@ -134,7 +152,7 @@ function renderForecast(card, data) {
     tile.querySelector('.temp-low .value')
         .textContent = Math.round(forecast.temperatureLow);
   });
-
+*/
   // If the loading spinner is still visible, remove it.
   const spinner = card.querySelector('.card-spinner');
   if (spinner) {
@@ -149,21 +167,22 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  //SM
-  var myHeaders = new Headers();
-  var myInit = { method: 'GET',
-               headers: myHeaders,
-               mode: 'cors',
-               cache: 'default' };
-
+  /* Versione DarkSky via server locale
   var server = "http://192.168.5.70"
   var url = server + `/forecast/${coords}`;
-  console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"] - URL:"+url)
-  return fetch(url, myInit)
+  */
+
+  var coord = coords.split(',')
+  var url = `https://api.openweathermap.org/data/2.5/weather?lat=${coord[0]}&lon=${coord[1]}&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+
+  console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
+  return fetch(url)
       .then((response) => {
+        console.log("fetch .then > " + response)
         return response.json();
       })
       .catch(() => {
+        console.error("fetch .catch")
         return null;
       });
 }
@@ -181,9 +200,10 @@ function getForecastFromCache(coords) {
     return null;
   }
   const url = `${window.location.origin}/forecast/${coords}`;
-  console.log("Cache: "+url)
+  console.log("Cache URL: "+url)
   return caches.match(url)
       .then((response) => {
+        console.log("caches then > "+response)
         if (response) {
           return response.json();
         }
