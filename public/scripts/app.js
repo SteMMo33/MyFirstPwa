@@ -118,42 +118,25 @@ function renderForecast(card, data) {
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
   // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
-      .fromSeconds(data.dt /*data.currently.time*/)
-      .setZone(data.timezone)
+      .fromSeconds(data.dt)
+      //.setZone(data.timezone)
       .toFormat('DDDD t');
   card.querySelector('.date').textContent = forecastFrom;
   
-  // card.querySelector('.current .icon').className = `icon ${data.currently.icon}`;
+  card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
   card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
   // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
   
-  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise).setZone(data.timezone).toFormat('t');
+  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise)./*setZone(data.timezone).*/toFormat('t');
   card.querySelector('.current .sunrise .value').textContent = sunrise;
 
-  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset).setZone(data.timezone).toFormat('t');
+  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset)./*setZone(data.timezone).*/toFormat('t');
   card.querySelector('.current .sunset .value').textContent = sunset;
 
   card.querySelector('.current .pressure .value').textContent = data.main.pressure;
-/*
-  // Render the next 7 days.
-  const futureTiles = card.querySelectorAll('.future .oneday');
-  futureTiles.forEach((tile, index) => {
-    const forecast = data.daily.data[index + 1];
-    const forecastFor = luxon.DateTime
-        .fromSeconds(forecast.time)
-        .setZone(data.timezone)
-        .toFormat('ccc');
-    tile.querySelector('.date').textContent = forecastFor;
-    tile.querySelector('.icon').className = `icon ${forecast.icon}`;
-    
-    tile.querySelector('.temp-high .value')
-        .textContent = Math.round(forecast.temperatureHigh);
-    tile.querySelector('.temp-low .value')
-        .textContent = Math.round(forecast.temperatureLow);
-  });
-*/
+
   // If the loading spinner is still visible, remove it.
   const spinner = card.querySelector('.card-spinner');
   if (spinner) {
@@ -198,7 +181,8 @@ function renderForecast7(card, data) {
           "temp":{"day":16.15,"min":14.37,"max":22.85,"night":14.37,"eve":22.85,"morn":17.69},
           "pressure":1005.47,"humidity":78,
           "weather":[{"id":500,"main":"Rain","description":"pioggia leggera","icon":"10d"}],
-          "speed":5.4,"deg":332,"clouds":100,"rain":1.63}
+          "speed":5.4,"deg":332,"clouds":100,"rain":1.63
+        }
       ]
     }
 */
@@ -210,7 +194,7 @@ function renderForecast7(card, data) {
     const forecast = data.list[index];
     const forecastFor = luxon.DateTime
         .fromSeconds(forecast.dt)
-        .setZone(data.city.timezone)
+        // .setZone(data.city.timezone)
         .toFormat('ccc');
     tile.querySelector('.date').textContent = forecastFor;
     tile.querySelector('.icon').className = `icon owm${forecast.weather[0].icon}`;

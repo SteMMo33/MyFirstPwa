@@ -93,6 +93,9 @@ https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}
 ## Modalità: Forecast
 https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml
 
+## Modalità: Forecast daily per max 16 gg
+https://api.openweathermap.org/data/2.5/forecast/daily?q=London,us&mode=xml
+
 
 # DarkSky
 
