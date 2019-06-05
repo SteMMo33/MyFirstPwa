@@ -174,12 +174,21 @@ body {
 .icon.clear-day {
   background-image: url("/images/clear-day.svg");
 }
+.icon.owm01d {
+  background-image: url("/images/clear-day.svg");
+}
 
 .icon.clear-night {
   background-image: url("/images/clear-night.svg");
 }
+.icon.owm01n {
+  background-image: url("/images/clear-night.svg");
+}
 
 .icon.rain {
+  background-image: url("/images/rain.svg");
+}
+.icon.owm10d {
   background-image: url("/images/rain.svg");
 }
 
@@ -202,8 +211,14 @@ body {
 .icon.cloudy {
   background-image: url("/images/cloudy.svg");
 }
+.icon.owm04d {
+  background-image: url("/images/cloudy.svg");
+}
 
 .icon.partly-cloudy-day {
+  background-image: url("/images/partly-cloudy-day.svg");
+}
+.icon.owm02d {
   background-image: url("/images/partly-cloudy-day.svg");
 }
 

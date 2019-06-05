@@ -85,6 +85,7 @@ function renderForecast(card, data) {
   const lastUpdated = parseInt(cardLastUpdated);
 
   /*
+  Current 
   https://api.openweathermap.org/data/2.5/weather?lat=44.695333&lon=10.241556&APPID=b82ec2f9c61a9f11fbe81ec3d5100227
 
   {
@@ -115,13 +116,12 @@ function renderForecast(card, data) {
 
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
-  // if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
+  // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
       .fromSeconds(data.dt /*data.currently.time*/)
       .setZone(data.timezone)
       .toFormat('DDDD t');
   card.querySelector('.date').textContent = forecastFrom;
-
   
   // card.querySelector('.current .icon').className = `icon ${data.currently.icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
@@ -147,6 +147,7 @@ function renderForecast(card, data) {
         .toFormat('ccc');
     tile.querySelector('.date').textContent = forecastFor;
     tile.querySelector('.icon').className = `icon ${forecast.icon}`;
+    
     tile.querySelector('.temp-high .value')
         .textContent = Math.round(forecast.temperatureHigh);
     tile.querySelector('.temp-low .value')
@@ -158,6 +159,66 @@ function renderForecast(card, data) {
   if (spinner) {
     card.removeChild(spinner);
   }
+}
+
+/**
+ * Renders the forecast data into the card element.
+ *
+ * @param {Element} card The card element to update.
+ * @param {Object} data Weather forecast data to update the element with.
+ */
+function renderForecast7(card, data) {
+
+  if (!data) {
+    // There's no data, skip the update.
+    console.log("Render7 skipped!")
+    return;
+  }
+/* 16 day forecast
+  {
+    "city":{"id":5105608,"name":"Union",
+      "coord":{"lon":-74.2632,"lat":40.6976},
+      "country":"US",
+      "population":56771,"timezone":-14400},
+    "cod":"200",
+    "message":2.8347703,
+    "cnt":7,
+    "list":[
+        { "dt":1559750400,
+          "temp":{"day":24.68,"min":17.75,"max":28.07,"night":18.93,"eve":23.02,"morn":17.75},
+          "pressure":1011.58,"humidity":50,
+          "weather":[{"id":501,"main":"Rain","description":"pioggia moderata","icon":"10d"}],
+          "speed":3.82,"deg":229,"clouds":90,"rain":4},
+        {"dt":1559836800,"temp":{"day":24.18,"min":17.55,"max":26.08,"night":17.55,"eve":25.38,"morn":17.55},"pressure":1006.65,"humidity":64,"weather":[{"id":501,"main":"Rain","description":"pioggia moderata","icon":"10d"}],"speed":4.78,"deg":304,"clouds":10,"rain":5.06},
+        {"dt":1559923200,"temp":{"day":22.87,"min":12.25,"max":26.97,"night":16.85,"eve":26.54,"morn":12.25},"pressure":1014.74,"humidity":50,"weather":[{"id":800,"main":"Clear","description":"cielo sereno","icon":"01d"}],"speed":2.33,"deg":36,"clouds":0},
+        {"dt":1560009600,"temp":{"day":23.05,"min":13.31,"max":26.21,"night":14.5,"eve":26.05,"morn":13.31},"pressure":1021.16,"humidity":44,"weather":[{"id":801,"main":"Clouds","description":"poche nuvole","icon":"02d"}],"speed":3.44,"deg":60,"clouds":13},
+        {"dt":1560096000,"temp":{"day":23.55,"min":11.62,"max":26.16,"night":14.62,"eve":25.53,"morn":11.62},"pressure":1023.79,"humidity":40,"weather":[{"id":804,"main":"Clouds","description":"cielo coperto","icon":"04d"}],"speed":1.54,"deg":113,"clouds":100},
+        {"dt":1560182400,"temp":{"day":18.25,"min":11.78,"max":19.06,"night":18.56,"eve":19.06,"morn":11.78},"pressure":1013.77,"humidity":81,"weather":[{"id":501,"main":"Rain","description":"pioggia moderata","icon":"10d"}],"speed":3.34,"deg":98,"clouds":100,"rain":11.44},
+        { "dt":1560268800,
+          "temp":{"day":16.15,"min":14.37,"max":22.85,"night":14.37,"eve":22.85,"morn":17.69},
+          "pressure":1005.47,"humidity":78,
+          "weather":[{"id":500,"main":"Rain","description":"pioggia leggera","icon":"10d"}],
+          "speed":5.4,"deg":332,"clouds":100,"rain":1.63}
+      ]
+    }
+*/
+
+  // Render the next 7 days.
+  const futureTiles = card.querySelectorAll('.future .oneday');
+  futureTiles.forEach((tile, index) => {
+    
+    const forecast = data.list[index];
+    const forecastFor = luxon.DateTime
+        .fromSeconds(forecast.dt)
+        .setZone(data.city.timezone)
+        .toFormat('ccc');
+    tile.querySelector('.date').textContent = forecastFor;
+    tile.querySelector('.icon').className = `icon owm${forecast.weather[0].icon}`;
+    
+    tile.querySelector('.temp-high .value').textContent = Math.round(forecast.temp.max);
+    tile.querySelector('.temp-low .value').textContent = Math.round(forecast.temp.min);  
+  });
+
 }
 
 /**
@@ -173,12 +234,41 @@ function getForecastFromNetwork(coords) {
   */
 
   var coord = coords.split(',')
-  var url = `https://api.openweathermap.org/data/2.5/weather?lat=${coord[0]}&lon=${coord[1]}&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
 
+  // Current weather
+  var url = `https://api.openweathermap.org/data/2.5/weather?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
   return fetch(url)
-      .then((response) => {
+      .then( (response) => {
         console.log("fetch .then > " + response)
+        return response.json();
+      })
+      .catch( () => {
+        console.error("fetch .catch")
+        return null;
+      });
+}
+
+/**
+ * Get's the latest forecast data from the network.
+ *
+ * @param {string} coords Location object to.
+ * @return {Object} The weather forecast, if the request fails, return null.
+ */
+function getForecast7FromNetwork(coords) {
+
+  var coord = coords.split(',')
+
+  // 5 day / 3 hour forecast data
+  //var url = `https://api.openweathermap.org/data/2.5/forecast?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+
+  // 16 day forecast data
+  var url7 = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+
+  console.log("[getForecastFromNetwork] Fetch7 coords = '"+coords+"' - URL: "+url7)
+  return fetch(url7)
+      .then((response) => {
+        console.log("fetch7 .then > " + response)
         return response.json();
       })
       .catch(() => {
@@ -248,17 +338,23 @@ function updateData() {
 
     // CODELAB: Add code to call getForecastFromCache
     getForecastFromCache(location.geo)
-      .then((forecast) => {
+      .then( (forecast) => {
         renderForecast(card, forecast);
       });
 
     // Get the forecast data from the network.
     getForecastFromNetwork(location.geo)
-        .then((forecast) => {
+        .then( (forecast) => {
           renderForecast(card, forecast);
-        });
-  });
+          //
+          getForecast7FromNetwork(location.geo)
+            .then( (forecast) => {
+              renderForecast7(card, forecast);
+            });
+    });
+  })
 }
+
 
 /**
  * Saves the list of locations.
