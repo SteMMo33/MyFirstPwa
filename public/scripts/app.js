@@ -124,6 +124,8 @@ function renderForecast(card, data) {
   card.querySelector('.date').textContent = forecastFrom;
   
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
+  card.querySelector('.current .icon').textContent = "aa"; // `${data.weather[0].icon}`;
+
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
   card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);

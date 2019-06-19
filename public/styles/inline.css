@@ -195,6 +195,9 @@ body {
 .icon.snow {
   background-image: url("/images/snow.svg");
 }
+.icon.owm13d .icon.owm13n{
+  background-image: url("/images/snow.svg");
+}
 
 .icon.sleet {
   background-image: url("/images/sleet.svg");
@@ -211,7 +214,10 @@ body {
 .icon.cloudy {
   background-image: url("/images/cloudy.svg");
 }
-.icon.owm04d {
+.icon.owm04d{
+  background-image: url("/images/cloudy.svg");
+}
+.icon.owm04n{
   background-image: url("/images/cloudy.svg");
 }
 
@@ -225,8 +231,14 @@ body {
 .icon.partly-cloudy-night {
   background-image: url("/images/partly-cloudy-night.svg");
 }
+.icon.owm02n {
+  background-image: url("/images/partly-cloudy-night.svg");
+}
 
 .icon.hail {
+  background-image: url("/images/hail.svg");
+}
+.icon.owm09d {
   background-image: url("/images/hail.svg");
 }
 
@@ -379,7 +391,7 @@ body {
 
 .weather-card .current .visual {
   display: flex;
-  font-size: 4em;
+  font-size: 3em;
 }
 
 .weather-card .current .visual .scale {

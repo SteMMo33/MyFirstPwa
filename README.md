@@ -97,7 +97,7 @@ https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml
 https://api.openweathermap.org/data/2.5/forecast/daily?q=London,us&mode=xml
 
 
-# DarkSky
+# DarkSky - removed
 
 ## Problema chiave
 Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
