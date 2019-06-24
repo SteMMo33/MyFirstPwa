@@ -45,6 +45,10 @@ function addLocation() {
   const card = getForecastCard(location);
   getForecastFromNetwork(geo).then((forecast) => {
     renderForecast(card, forecast);
+
+    getForecast7FromNetwork(geo).then(
+      (forecast7) => renderForecast7(card, forecast7)
+    )
   });
   // Save the updated list of selected cities.
   weatherApp.selectedLocations[geo] = location;
@@ -124,8 +128,6 @@ function renderForecast(card, data) {
   card.querySelector('.date').textContent = forecastFrom;
   
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
-  card.querySelector('.current .icon').textContent = "aa"; // `${data.weather[0].icon}`;
-
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
   card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);

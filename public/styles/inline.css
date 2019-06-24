@@ -171,31 +171,83 @@ body {
   background-image: url("/images/add.svg");
 }
 
-.icon.clear-day {
-  background-image: url("/images/clear-day.svg");
-}
+/*
+  Openweather icons
+*/
+
 .icon.owm01d {
+  background-image: url("/images/ow/01d.png");
+}
+
+.icon.owm02d {
+  background-image: url("/images/ow/02d.png");
+}
+
+.icon.owm03d {
+  background-image: url("/images/ow/03d.png");
+}
+
+.icon.owm04d{
+  background-image: url("/images/ow/04d.png");
+}
+
+.icon.owm09d {
+  background-image: url("/images/ow/09d.png");
+}
+
+.icon.owm10d {
+  background-image: url("/images/ow/10d.png");
+}
+
+.icon.owm13d {
+  background-image: url("/images/ow/13d.png");
+}
+
+/* Notturne */
+
+.icon.owm01n {
+  background-image: url("/images/ow/01n.png");
+}
+
+.icon.owm02n {
+  background-image: url("/images/ow/02n.png");
+}
+
+.icon.owm03n {
+  background-image: url("/images/ow/03n.png");
+}
+
+.icon.owm04n{
+  background-image: url("/images/ow/04n.png");
+}
+
+.icon.owm09n {
+  background-image: url("/images/ow/09n.png");
+}
+
+.icon.owm10n {
+  background-image: url("/images/ow/10n.png");
+}
+
+.icon.owm13n{
+  background-image: url("/images/ow/13n.png");
+}
+
+/* -- */
+
+.icon.clear-day {
   background-image: url("/images/clear-day.svg");
 }
 
 .icon.clear-night {
   background-image: url("/images/clear-night.svg");
 }
-.icon.owm01n {
-  background-image: url("/images/clear-night.svg");
-}
 
 .icon.rain {
   background-image: url("/images/rain.svg");
 }
-.icon.owm10d {
-  background-image: url("/images/rain.svg");
-}
 
 .icon.snow {
-  background-image: url("/images/snow.svg");
-}
-.icon.owm13d .icon.owm13n{
   background-image: url("/images/snow.svg");
 }
 
@@ -214,31 +266,16 @@ body {
 .icon.cloudy {
   background-image: url("/images/cloudy.svg");
 }
-.icon.owm04d{
-  background-image: url("/images/cloudy.svg");
-}
-.icon.owm04n{
-  background-image: url("/images/cloudy.svg");
-}
 
 .icon.partly-cloudy-day {
-  background-image: url("/images/partly-cloudy-day.svg");
-}
-.icon.owm02d {
   background-image: url("/images/partly-cloudy-day.svg");
 }
 
 .icon.partly-cloudy-night {
   background-image: url("/images/partly-cloudy-night.svg");
 }
-.icon.owm02n {
-  background-image: url("/images/partly-cloudy-night.svg");
-}
 
 .icon.hail {
-  background-image: url("/images/hail.svg");
-}
-.icon.owm09d {
   background-image: url("/images/hail.svg");
 }
 
