@@ -82,6 +82,7 @@ function renderForecast(card, data) {
     console.log("Render skipped!")
     return;
   }
+  console.log("renderForecast "+data.name)
 
   // Find out when the element was last updated.
   const cardLastUpdatedElem = card.querySelector('.card-last-updated');
@@ -118,21 +119,24 @@ function renderForecast(card, data) {
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
 
+  if (data.name) card.querySelector('.location').textContent = data.name + " - " + data.sys.country;
+  // card.querySelector('.state').textContent = "QQ" // data.sys.country;
+
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
   // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
-      .fromSeconds(data.dt)
+      .fromSeconds(data.dt+data.timezone)
       //.setZone(data.timezone)
       .toFormat('DDDD t');
   card.querySelector('.date').textContent = forecastFrom;
-  
+
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
   card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
   // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
-  
+
   const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise)./*setZone(data.timezone).*/toFormat('t');
   card.querySelector('.current .sunrise .value').textContent = sunrise;
 
@@ -146,6 +150,7 @@ function renderForecast(card, data) {
   if (spinner) {
     card.removeChild(spinner);
   }
+
 }
 
 /**
@@ -228,7 +233,7 @@ function getForecastFromNetwork(coords) {
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
   return fetch(url)
       .then( (response) => {
-        console.log("fetch .then > " + response)
+        console.log("Fetch .then > " + response)
         return response.json();
       })
       .catch( () => {
@@ -253,14 +258,14 @@ function getForecast7FromNetwork(coords) {
   // 16 day forecast data
   var url7 = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
 
-  console.log("[getForecastFromNetwork] Fetch7 coords = '"+coords+"' - URL: "+url7)
+  console.log("[getForecast7FromNetwork] Fetch7 coords = '"+coords+"' - URL: "+url7)
   return fetch(url7)
       .then((response) => {
         console.log("fetch7 .then > " + response)
         return response.json();
       })
       .catch(() => {
-        console.error("fetch .catch")
+        console.error("fetch7 .catch")
         return null;
       });
 }
@@ -281,7 +286,7 @@ function getForecastFromCache(coords) {
   console.log("Cache URL: "+url)
   return caches.match(url)
       .then((response) => {
-        console.log("caches then > "+response)
+        console.log("caches .then > "+response)
         if (response) {
           return response.json();
         }
@@ -327,12 +332,14 @@ function updateData() {
     // CODELAB: Add code to call getForecastFromCache
     getForecastFromCache(location.geo)
       .then( (forecast) => {
+        console.log("ok from cache ..")
         renderForecast(card, forecast);
       });
 
     // Get the forecast data from the network.
     getForecastFromNetwork(location.geo)
         .then( (forecast) => {
+          console.log("ok from network ..")
           renderForecast(card, forecast);
           //
           getForecast7FromNetwork(location.geo)
