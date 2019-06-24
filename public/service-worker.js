@@ -18,7 +18,7 @@
 'use strict';
 
 // CODELAB: Update cache names any time any of the cached files change.
-const CACHE_NAME = 'static-cache-v4';
+const CACHE_NAME = 'static-cache-v5';
 const DATA_CACHE_NAME = 'data-cache-v2';
 
 // CODELAB: Add list of files to cache here.
@@ -46,6 +46,14 @@ const FILES_TO_CACHE = [
   '/images/thunderstorm.svg',
   '/images/tornado.svg',
   '/images/wind.svg',
+  '/images/ow/01d.png',
+  '/images/ow/01n.png',
+  '/images/ow/02d.png',
+  '/images/ow/02n.png',
+  '/images/ow/03d.png',
+  '/images/ow/03n.png',
+  '/images/ow/04d.png',
+  '/images/ow/05n.png'
 ];
 
 self.addEventListener('install', (evt) => {
