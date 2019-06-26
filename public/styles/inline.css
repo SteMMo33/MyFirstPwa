@@ -221,12 +221,24 @@ body {
   background-image: url("/images/ow/04n.png");
 }
 
+.icon.owm09d {
+  background-image: url("/images/ow/09d.png");
+}
+
 .icon.owm09n {
   background-image: url("/images/ow/09n.png");
 }
 
+.icon.owm10d {
+  background-image: url("/images/ow/10d.png");
+}
+
 .icon.owm10n {
   background-image: url("/images/ow/10n.png");
+}
+
+.icon.owm13d{
+  background-image: url("/images/ow/13d.png");
 }
 
 .icon.owm13n{
