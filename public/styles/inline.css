@@ -233,6 +233,14 @@ body {
   background-image: url("/images/ow/13n.png");
 }
 
+.icon.owm50d{
+  background-image: url("/images/ow/50d.png");
+}
+
+.icon.owm50n{
+  background-image: url("/images/ow/50n.png");
+}
+
 /* -- */
 
 .icon.clear-day {

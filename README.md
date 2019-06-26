@@ -29,6 +29,7 @@ Lancio del server locale con ```node server.js``` - il server si pone in attesa 
 
 ### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
+La prova di test con server locale è stata fatta anche con l'estensione di Visual Studio Code che monta un server sulla porta 4500. Per spostare la root del webserver sulla cartella public è stato necessario inserire un file di configurazione in .vscode/settings.json
 
 ## Firebase
 

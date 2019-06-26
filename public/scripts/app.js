@@ -119,7 +119,7 @@ function renderForecast(card, data) {
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
 
-  if (data.name) card.querySelector('.location').textContent = data.name + " - " + data.sys.country;
+  if (data.name) card.querySelector('.location').textContent = data.name + " [" + data.sys.country + "]";
   // card.querySelector('.state').textContent = "QQ" // data.sys.country;
 
   // Render the forecast data into the card.
@@ -137,10 +137,10 @@ function renderForecast(card, data) {
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
   // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
 
-  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise)./*setZone(data.timezone).*/toFormat('t');
+  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise+data.timezone)./*setZone(data.timezone).*/toFormat('t');
   card.querySelector('.current .sunrise .value').textContent = sunrise;
 
-  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset)./*setZone(data.timezone).*/toFormat('t');
+  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset+data.timezone)./*setZone(data.timezone).*/toFormat('t');
   card.querySelector('.current .sunset .value').textContent = sunset;
 
   card.querySelector('.current .pressure .value').textContent = data.main.pressure;
