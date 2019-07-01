@@ -237,6 +237,14 @@ body {
   background-image: url("/images/ow/10n.png");
 }
 
+.icon.owm11d {
+  background-image: url("/images/ow/11d.png");
+}
+
+.icon.owm11n {
+  background-image: url("/images/ow/11n.png");
+}
+
 .icon.owm13d{
   background-image: url("/images/ow/13d.png");
 }

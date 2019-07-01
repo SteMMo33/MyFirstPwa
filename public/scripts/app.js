@@ -77,6 +77,9 @@ function removeLocation(evt) {
  */
 function renderForecast(card, data) {
 
+  var local = new luxon.LocalZone()
+  document.querySelector("#localName").textContent = local.name
+
   if (!data) {
     // There's no data, skip the update.
     console.log("Render skipped!")
@@ -118,15 +121,17 @@ function renderForecast(card, data) {
   }
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
+console.log("id = " + data.dt)
+console.log("idT = " + (data.dt+data.timezone))
 
-  if (data.name) card.querySelector('.location').textContent = data.name + " [" + data.sys.country + "]";
+  if (data.name) card.querySelector('.location').textContent = data.name + " - " + data.sys.country;
   // card.querySelector('.state').textContent = "QQ" // data.sys.country;
 
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
   // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
   const forecastFrom = luxon.DateTime
-      .fromSeconds(data.dt+data.timezone)
+      .fromSeconds(data.dt)
       //.setZone(data.timezone)
       .toFormat('DDDD t');
   card.querySelector('.date').textContent = forecastFrom;
@@ -137,10 +142,10 @@ function renderForecast(card, data) {
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
   // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
 
-  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise+data.timezone)./*setZone(data.timezone).*/toFormat('t');
+  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise).setZone("UTC").plus({ seconds: data.timezone }).toFormat('t');
   card.querySelector('.current .sunrise .value').textContent = sunrise;
 
-  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset+data.timezone)./*setZone(data.timezone).*/toFormat('t');
+  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset).setZone("UTC").plus({ seconds: data.timezone}).toFormat('t');
   card.querySelector('.current .sunset .value').textContent = sunset;
 
   card.querySelector('.current .pressure .value').textContent = data.main.pressure;
