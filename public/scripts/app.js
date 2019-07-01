@@ -33,13 +33,28 @@ function toggleAddDialog() {
  * Event handler for butDialogAdd, adds the selected location to the list.
  */
 function addLocation() {
+  console.log(document.getElementById("inputLat"))
+  console.log(document.getElementById("inputLat").innerText)
+  console.log(document.body.querySelector("inputLat"))
+  var lat = document.body.querySelector("inputLat").textContent
+  var lon = document.body.querySelector("inputLong").textContent
+  console.log("Lat: "+lat+" Long:"+lon)
+
   // Hide the dialog
   toggleAddDialog();
-  // Get the selected city
-  const select = document.getElementById('selectCityToAdd');
-  const selected = select.options[select.selectedIndex];
-  const geo = selected.value;
-  const label = selected.textContent;
+
+  if (lat=="" || lon ==""){
+    // Get the selected city
+    const select = document.getElementById('selectCityToAdd');
+    const selected = select.options[select.selectedIndex];
+    geo = selected.value;
+    label = selected.textContent;
+  }
+  else {
+    label = "??"
+    geo = lat+","+lon
+  }
+
   const location = {label: label, geo: geo};
   // Create a new card & get the weather data from the server
   const card = getForecastCard(location);
@@ -77,15 +92,15 @@ function removeLocation(evt) {
  */
 function renderForecast(card, data) {
 
-  var local = new luxon.LocalZone()
-  document.querySelector("#localName").textContent = local.name
-
   if (!data) {
     // There's no data, skip the update.
     console.log("Render skipped!")
     return;
   }
   console.log("renderForecast "+data.name)
+
+  var local = new luxon.LocalZone()
+  document.querySelector("#localName").textContent = local.name
 
   // Find out when the element was last updated.
   const cardLastUpdatedElem = card.querySelector('.card-last-updated');
@@ -121,20 +136,15 @@ function renderForecast(card, data) {
   }
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
-console.log("id = " + data.dt)
-console.log("idT = " + (data.dt+data.timezone))
 
   if (data.name) card.querySelector('.location').textContent = data.name + " - " + data.sys.country;
-  // card.querySelector('.state').textContent = "QQ" // data.sys.country;
 
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
   // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
-  const forecastFrom = luxon.DateTime
-      .fromSeconds(data.dt)
-      //.setZone(data.timezone)
-      .toFormat('DDDD t');
-  card.querySelector('.date').textContent = forecastFrom;
+  const forecastFrom = luxon.DateTime.fromSeconds(data.dt).toFormat('DDDD t');
+  card.querySelector('.date').textContent = 
+    forecastFrom + " (local: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t') + ")";
 
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
