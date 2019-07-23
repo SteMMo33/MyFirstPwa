@@ -33,11 +33,11 @@ function toggleAddDialog() {
  * Event handler for butDialogAdd, adds the selected location to the list.
  */
 function addLocation() {
-  console.log(document.getElementById("inputLat"))
-  console.log(document.getElementById("inputLat").innerText)
+
   console.log(document.body.querySelector("inputLat"))
-  var lat = document.body.querySelector("inputLat").textContent
-  var lon = document.body.querySelector("inputLong").textContent
+
+  var lat = document.getElementById("inputLat").value // document.body.querySelector("inputLat").textContent
+  var lon = document.getElementById("inputLong").value // document.body.querySelector("inputLong").textContent
   console.log("Lat: "+lat+" Long:"+lon)
 
   // Hide the dialog
