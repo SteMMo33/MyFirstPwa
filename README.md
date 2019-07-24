@@ -14,7 +14,7 @@ techniques. Your app will:
 * Be installable, using a web app manifest and the `beforeinstallprompt` event
   to notify the user it's installable.
 
-## Mie prove
+## Mie modifiche
 * Ho creato il progetto seguendo le istruzioni del codelab.
 * Ho creato un progetto nella console di Firebase di Google.
 * Ho creato un hosting in cui ho fatto deploy del progetto da linea di comando.
@@ -29,7 +29,8 @@ Lancio del server locale con ```node server.js``` - il server si pone in attesa 
 
 ### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
-La prova di test con server locale è stata fatta anche con l'estensione di Visual Studio Code che monta un server sulla porta 4500. Per spostare la root del webserver sulla cartella public è stato necessario inserire un file di configurazione in .vscode/settings.json
+La prova di test con server locale è stata fatta anche con l'estensione *Live Server* di *Visual Studio Code* che monta un server sulla porta 4500. 
+Per spostare la root del webserver sulla cartella *public*, ed eventualmente cambiare il numero di porta, è stato necessario inserire un file di configurazione in *.vscode/settings.json*
 
 ## Firebase
 

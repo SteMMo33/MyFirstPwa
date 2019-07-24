@@ -34,8 +34,8 @@ function toggleAddDialog() {
  */
 function addLocation() {
 
-  console.log(document.body.querySelector("inputLat"))
-
+  var geo
+  var label = "??"
   var lat = document.getElementById("inputLat").value // document.body.querySelector("inputLat").textContent
   var lon = document.getElementById("inputLong").value // document.body.querySelector("inputLong").textContent
   console.log("Lat: "+lat+" Long:"+lon)
@@ -51,7 +51,6 @@ function addLocation() {
     label = selected.textContent;
   }
   else {
-    label = "??"
     geo = lat+","+lon
   }
 
@@ -76,8 +75,14 @@ function addLocation() {
  * @param {Event} evt
  */
 function removeLocation(evt) {
-  const parent = evt.srcElement.parentElement;
+  console.log(evt)
+  
+  var el;
+  if (evt.srcElement) el = evt.srcElement
+  if (evt.originalTarget) el = evt.originalTarget
+  const parent = el.parentElement;
   parent.setAttribute('hidden', true);
+
   if (weatherApp.selectedLocations[parent.id]) {
     delete weatherApp.selectedLocations[parent.id];
     saveLocationList(weatherApp.selectedLocations);
