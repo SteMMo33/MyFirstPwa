@@ -85,7 +85,9 @@ Soluzione:
 
 Cambio server e provo a richiedere dati a https://openweathermap.org/API.
 
-# OpenWeather
+# OpenWeatherMap
+Sito https://openweathermap.org/
+
 ## Autenticazione
 http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY} 
 
@@ -98,6 +100,12 @@ https://api.openweathermap.org/data/2.5/forecast?q=London,us&mode=xml
 ## Modalità: Forecast daily per max 16 gg
 https://api.openweathermap.org/data/2.5/forecast/daily?q=London,us&mode=xml
 
+## Icone
+Link icone normali: https://openweathermap.org/img/wn/13d.png
+
+Link icone doppie: https://openweathermap.org/img/wn/13d@2x.png
+
+Ci sono anche quelle notturne sostituendo la lettera 'd' con la lettera 'n'.
 
 # DarkSky - removed
 
