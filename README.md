@@ -116,7 +116,18 @@ Sembra essere necessario installare il plugin dotnet di node con:
 npm install dotenv
 ```
 
-### Come cambiare versione dell'app ?? TBD
+# Geolocalizzazione
+Aggiungere la possibilità di inserire un luogo attraverso il nome del luogo stesso, oltre che via coordinate o lista.
+
+## Siti
+https://locationiq.com/ - RESTful API - Free API - Max 10.000 richiesta al giorno
+
+https://opencagedata.com - RESTful API - Free API Key - Max 2500 richieste al giorno
+
+# Domande
+
+## Come cambiare versione dell'app ?? 
+TBD
 
 
 ## Come debuggare app ?
@@ -127,7 +138,7 @@ Un altro tool per la verifica della 'bontà' dell'applicazione è LightHouse, se
 Anche Firefox ha il supporto per i ServiceWorkers (49+) ma normalmente è disattivato. Deve essere abilitato nella pagina **about:config** alla voce **dom.serviceWorkers.enable**.
 
 #### Mia soluzione
-Come prima soluzione ilorogetto è corredato da un semplice server sviluppato in Javascript per nodeJS.
+Come prima soluzione il progetto è corredato da un semplice server sviluppato in Javascript per nodeJS.
 Per installare tutti i moduli necessari al funzionamento è necessario lanciare il comando:
 ```
 npm install
@@ -144,29 +155,6 @@ node server.js
 
 To get started, check out the [codelab instruction][codelab]
 
-
-## Feedback
-
-This is a work in progress, if you find a mistake, please [file an issue][git-issue].
-
-
-## License
-
-Copyright 2019 Google, Inc.
-
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements. See the NOTICE file distributed with this work for
-additional information regarding copyright ownership. The ASF licenses this
-file to you under the Apache License, Version 2.0 (the “License”); you may not
-use this file except in compliance with the License. You may obtain a copy of
-the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
 
 
 [codelab]: https://codelabs.developers.google.com/codelabs/your-first-pwapp/

@@ -38,19 +38,30 @@ function addLocation() {
   var label = "??"
   var lat = document.getElementById("inputLat").value // document.body.querySelector("inputLat").textContent
   var lon = document.getElementById("inputLong").value // document.body.querySelector("inputLong").textContent
+
+  // Richiesta per nome città
+  var city = document.querySelector("inputName");
+  if (city){
+    // Hide the dialog
+    toggleAddDialog();
+    alert("Todo")
+    return
+  }
+
   console.log("Lat: "+lat+" Long:"+lon)
 
   // Hide the dialog
   toggleAddDialog();
 
-  if (lat=="" || lon ==""){
-    // Get the selected city
+  if (lat=="" || lon==""){
+    // Get the selected (embedded) city
     const select = document.getElementById('selectCityToAdd');
     const selected = select.options[select.selectedIndex];
     geo = selected.value;
     label = selected.textContent;
   }
   else {
+    // Dati lat e lon
     geo = lat+","+lon
   }
 
@@ -146,7 +157,8 @@ function renderForecast(card, data) {
 
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
-  // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
+  // if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
+  
   const forecastFrom = luxon.DateTime.fromSeconds(data.dt).toFormat('DDDD t');
   card.querySelector('.date').textContent = 
     forecastFrom + " (local: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t') + ")";
@@ -281,7 +293,7 @@ function getForecast7FromNetwork(coords) {
   console.log("[getForecast7FromNetwork] Fetch7 coords = '"+coords+"' - URL: "+url7)
   return fetch(url7)
       .then((response) => {
-        console.log("fetch7 .then > " + response)
+        console.log("fetch7 .then : " + response)
         return response.json();
       })
       .catch(() => {

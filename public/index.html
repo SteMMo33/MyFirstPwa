@@ -37,7 +37,7 @@
   <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
 
   <!-- CODELAB: Add description here -->
-  <meta name="description" content="Another weather PWA">
+  <meta name="description" content="My weather PWA">
 
   <!-- CODELAB: Add meta theme-color -->
   <meta name="theme-color" content="#2F3BA2" />
@@ -47,7 +47,7 @@
 
   <header class="header">
     <h1>
-      OpenWeather PWA
+      OpenWeatherMap PWA
     </h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
@@ -60,7 +60,7 @@
     </button>
 
     <div id="about" class="weather-card">
-      <b>My Progressive Web App</b><br>
+      <b>OpenWeatherMap App</b><br>
       Based on <a href="https://g.co/codelabs/pwa">https://g.co/codelabs/pwa</a>.<br>
       Local: <span id="localName">&nbsp;</span>
     </div>
@@ -194,28 +194,26 @@
             additional cities.
           -->
           <option value="28.6472799,76.8130727">Dehli, India</option>
-          <option value="-5.7759362,106.1174957">Jakarta, Indonesia</option>
           <option value="51.5287718,-0.2416815">London, UK</option>
           <option value="40.6976701,-74.2598666">New York, USA</option>
           <option value="48.8589507,2.2770202">Paris, France</option>
           <option value="37.757815,-122.5076401">San Francisco, USA</option>
-          <option value="31.2243085,120.9162955">Shanghai, China</option>
-          <option value="35.6735408,139.5703032">Tokyo, Japan</option>
           <option value="44.695333,10.241556">Felino, Italia</option>
           <option value="43.654,-79.3873">Toronto, Canada</option>
         </select>
         <p>Latitud: <input id="inputLat" name="inputLat" type="number" step="0.00001"></p>
         <p>Longit: <input id="inputLong" name="inputLong" type="number" step="0.00001"></p>
+        <p>Nome: <input id="inputName" name="inputName"></p>
       </div>
       <div class="dialog-buttons">
-        <button id="butDialogCancel" class="button">Cancel</button>
-        <button id="butDialogAdd" class="button">Add</button>
+        <button id="butDialogCancel" class="button">Annulla</button>
+        <button id="butDialogAdd" class="button">Aggiungi</button>
       </div>
     </div>
   </div>
 
   <!-- <script src="/scripts/luxon-1.11.4.js"></script> -->
-  <script src="/scripts/luxon.min.js"></script>
+  <script src="/scripts/luxon.min.js"></script><!-- Libreria per la gestione delle date -->
   <script src="/scripts/app.js"></script>
   <script src="/scripts/install.js"></script>
   
