@@ -40,12 +40,35 @@ function addLocation() {
   var lon = document.getElementById("inputLong").value // document.body.querySelector("inputLong").textContent
 
   // Richiesta per nome città
-  var city = document.querySelector("inputName");
+  var city = document.querySelector("#inputName").value;
   if (city){
-    // Hide the dialog
-    toggleAddDialog();
-    alert("Todo")
-    return
+	  	/* Problema CORS
+		var url = "http://www.gps-coordinates.net/api/"+city
+		*/
+
+		var url = "https://eu1.locationiq.com/v1/search.php?key=a9e750a5eb2f83&q="+city+"&format=json"
+
+   	console.log("[addLocation] Fetch city = '"+city+"' - URL: "+url)
+   	return fetch(url)
+        	.then( (response) => {
+			 	console.log("Fetch .then > "+ typeof response)
+				console.log(response)
+				
+				var j = response.json().then( (body) => {
+					console.log("read .then >")
+					console.log(body)
+            	document.querySelector("inputLat").value = body[0].lat
+            	document.querySelector("inputLong").value = body[0].lon
+				})
+				.catch( (err) => {
+					console.log("read .catch "+err)
+				})
+        	})
+      	.catch( (err) => {
+				console.error("fetch .catch")
+				console.log(err)
+         	return null;
+			});  		 
   }
 
   console.log("Lat: "+lat+" Long:"+lon)
@@ -153,7 +176,7 @@ function renderForecast(card, data) {
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
 
-  if (data.name) card.querySelector('.location').textContent = data.name + " - " + data.sys.country;
+  if (data.name) card.querySelector('.location').textContent = data.name + " " + data.sys.country;
 
   // Render the forecast data into the card.
   card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
