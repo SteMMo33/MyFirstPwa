@@ -29,6 +29,7 @@ Lancio del server locale con ```node server.js``` - il server si pone in attesa 
 
 ### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
+### Live server
 La prova di test con server locale è stata fatta anche con l'estensione *Live Server* di *Visual Studio Code* che monta un server sulla porta 4500. 
 Per spostare la root del webserver sulla cartella *public*, ed eventualmente cambiare il numero di porta, è stato necessario inserire un file di configurazione in *.vscode/settings.json*
 
@@ -49,13 +50,13 @@ https://darksky.net/forecast/44.69,10.24/ca12/en
 
 La app sembra non richiedere i dati al server DarkSky in quanto non definisce una URL assoluta, ma relativa al sito corrente (???).
 
-La richiesta dei dati viene eseguita da server.js !?!? Forse per evitare il problema del CORS ?? Ma poi l'app sul mobile come fa ??
+La richiesta dei dati viene eseguita da server.js !! Forse per evitare il problema del CORS ?? Ma poi l'app sul mobile come fa ??
 Risposta dell'autore ad una mia richiesta su GitHub:
 ```
 Unfortunately - due to the CORS requirements of the Dark Sky API, you need to use the node server to proxy the data.
 ```
 
-Il problema CORS è un rpblema insito nel sistema di protezione di un browser che non consente di regola di fare richieste cross-dominio (diverso protocollo, indirizzo o porta): vedere https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+Il problema CORS è un problema insito nel sistema di protezione di un browser che non consente di regola di fare richieste cross-dominio (diverso protocollo, indirizzo o porta): vedere https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 ```
 A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, and port) than its own origin.
 ...
@@ -63,8 +64,9 @@ For security reasons, browsers restrict cross-origin HTTP requests initiated fro
 
 ```
 
-```
+
 Fonte: https://www.joshmorony.com/dealing-with-cors-cross-origin-resource-sharing-in-ionic-applications/
+```
 The Solution for CORS Issues
 
 The best way to deal with CORS is to abide by the rules of the browser and implement CORS correctly. That means enabling CORS on the server you are making a request to.
@@ -120,9 +122,14 @@ npm install dotenv
 Aggiungere la possibilità di inserire un luogo attraverso il nome del luogo stesso, oltre che via coordinate o lista.
 
 ## Siti
-https://locationiq.com/ - RESTful API - Free API - Max 10.000 richiesta al giorno
+https://locationiq.com/ - RESTful API - Free API - Max 10.000 richiesta al giorno - Permette anche il reverse
+
+Registrato il 31.12.2019 su iegghilba@gmail.com
+API key: a9e750a5eb2f83
 
 https://opencagedata.com - RESTful API - Free API Key - Max 2500 richieste al giorno
+
+https://www.gps-coordinates.net/api/Felino - Nessuna registrazione - Problema CORS
 
 # Domande
 
