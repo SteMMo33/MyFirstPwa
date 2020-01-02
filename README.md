@@ -109,7 +109,6 @@ Link icone doppie: https://openweathermap.org/img/wn/13d@2x.png
 
 Ci sono anche quelle notturne sostituendo la lettera 'd' con la lettera 'n'.
 
-# DarkSky - removed
 
 ## Problema chiave
 Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
@@ -117,12 +116,14 @@ Sembra essere necessario installare il plugin dotnet di node con:
 ```
 npm install dotenv
 ```
+**DarkSky - removed**
+
 
 # Geolocalizzazione
-Aggiungere la possibilità di inserire un luogo attraverso il nome del luogo stesso, oltre che via coordinate o lista.
+Aggiunta la possibilità di inserire un luogo attraverso il nome del luogo stesso, oltre che via coordinate o lista.
 
 ## Siti
-https://locationiq.com/ - RESTful API - Free API - Max 10.000 richiesta al giorno - Permette anche il reverse
+https://locationiq.com/ - RESTful API - Free API - Max 10.000 richiesta al giorno - Permette anche il reverse-geo
 
 Registrato il 31.12.2019 su iegghilba@gmail.com
 API key: a9e750a5eb2f83

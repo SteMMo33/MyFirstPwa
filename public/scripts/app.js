@@ -57,8 +57,11 @@ function addLocation() {
 				var j = response.json().then( (body) => {
 					console.log("read .then >")
 					console.log(body)
-            	document.querySelector("inputLat").value = body[0].lat
-            	document.querySelector("inputLong").value = body[0].lon
+					var result = body[0]
+            	document.querySelector("#inputLat").value = result.lat
+					document.querySelector("#inputLong").value = result.lon
+					document.querySelector("#inputDesc").textContent = result.display_name
+					document.querySelector("#inputName").value = ""
 				})
 				.catch( (err) => {
 					console.log("read .catch "+err)
@@ -184,7 +187,7 @@ function renderForecast(card, data) {
   
   const forecastFrom = luxon.DateTime.fromSeconds(data.dt).toFormat('DDDD t');
   card.querySelector('.date').textContent = 
-    forecastFrom + " (local: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t') + ")";
+    forecastFrom + " (locale: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t') + ")";
 
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
@@ -221,7 +224,7 @@ function renderForecast7(card, data) {
     console.log("Render7 skipped!")
     return;
   }
-/* 16 day forecast
+/* Esempio risposta: 16 day forecast
   {
     "city":{"id":5105608,"name":"Union",
       "coord":{"lon":-74.2632,"lat":40.6976},
