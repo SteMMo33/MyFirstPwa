@@ -1,5 +1,5 @@
 <!--
- Your First PWA Codelab (https://g.co/codelabs/pwa)
+ OpenWeather First PWA Codelab (https://g.co/codelabs/pwa)
 
  Copyright 2019 Google Inc.
 
@@ -216,6 +216,27 @@
   <script src="/scripts/app.js"></script>
   <script src="/scripts/install.js"></script>
   
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCjOnH0-P1j39X5PPA8JmowFv5VU2uex84",
+    authDomain: "myfirstpwa-37305.firebaseapp.com",
+    databaseURL: "https://myfirstpwa-37305.firebaseio.com",
+    projectId: "myfirstpwa-37305",
+    storageBucket: "myfirstpwa-37305.appspot.com",
+    messagingSenderId: "616214175028",
+    appId: "1:616214175028:web:f84dc36e6c7d742e"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
   <script>
     // CODELAB: Register service worker.
     if ('serviceWorker' in navigator) {

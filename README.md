@@ -35,6 +35,9 @@ Per spostare la root del webserver sulla cartella *public*, ed eventualmente cam
 
 ## Firebase
 
+Registrato il progetto in https://myfirstpwa-37305.web.app/
+Da questo indirizzo è possibile installare l'app sul telefonino.
+
 Comando per il deploy:
 
 ```

@@ -28,7 +28,7 @@ const FILES_TO_CACHE = [
   '/index.html',
   '/scripts/app.js',
   '/scripts/install.js',
-  '/scripts/luxon-1.11.4.js',
+  '/scripts/luxon.min.js',
   '/styles/inline.css',
   '/images/add.svg',
   '/images/clear-day.svg',
@@ -60,6 +60,8 @@ const FILES_TO_CACHE = [
   '/images/ow/10n.png',
   '/images/ow/11d.png',
   '/images/ow/11n.png',
+  '/images/ow/13d.png',
+  '/images/ow/13n.png',
   '/images/ow/50d.png',
   '/images/ow/50n.png'
 ];

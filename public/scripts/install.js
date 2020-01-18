@@ -23,6 +23,8 @@ installButton.addEventListener('click', installPWA);
 
 // CODELAB: Add event listener for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', saveBeforeInstallPromptEvent);
+// CODELAB: Add event listener for appinstalled event
+window.addEventListener('appinstalled', logAppInstalled);
 
 
 /**
@@ -61,8 +63,6 @@ function installPWA(evt) {
     });
 }
 
-// CODELAB: Add event listener for appinstalled event
-window.addEventListener('appinstalled', logAppInstalled);
 
 /**
  * Event handler for appinstalled event.
