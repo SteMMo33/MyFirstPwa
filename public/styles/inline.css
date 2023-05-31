@@ -436,6 +436,13 @@ body {
   font-size: x-large;
 }
 
+.weather-card #btnHourly {
+  background-color: transparent;
+  border: none;
+  float: right;
+  font-size: large;
+}
+
 .weather-card .location {
   font-size: 1.75em;
 }

@@ -1,7 +1,7 @@
 {
-    "name": "Weather Name",
+    "name": "Weather 2023",
     "short_name": "Weather PWA",
-    "version": "0.91",
+    "version": "0.92",
     "icons": [{
       "src": "/images/icons/icon-128x128.png",
         "sizes": "128x128",

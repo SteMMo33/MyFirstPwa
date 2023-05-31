@@ -99,8 +99,8 @@ self.addEventListener('activate', (evt) => {
 });
 
 self.addEventListener('fetch', (evt) => {
-  console.log('[ServiceWorker] Fetch ', evt.request.url);
-  console.log('[ServiceWorker] Mode ', evt.request.mode);
+  console.log('[sw] Fetch/Cache ', evt.request.url);
+  console.log('[sw] Mode ', evt.request.mode);
 
   // CODELAB: Add fetch event handler here.
   /* Original code
@@ -122,19 +122,20 @@ self.addEventListener('fetch', (evt) => {
   // if (evt.request.url.includes('/forecast/')) 
   if (evt.request.url.includes('openweathermap')) 
   {
-    console.log('[Service Worker] Fetch (data)', evt.request.url);
+    console.log('[Service Worker][fetch] Fetch (data)', evt.request.url);
     evt.respondWith(
         caches.open(DATA_CACHE_NAME).then((cache) => {
           return fetch(evt.request)
               .then((response) => {
                 // If the response was good, clone it and store it in the cache.
-                console.log(response.status)
+                console.log("[fetch] status: "+response.status)
                 if (response.status === 200) {
-                  console.log(".. add to cache")
+                  console.log("[fetch] .. add to cache")
                   cache.put(evt.request.url, response.clone());
                 }
                 return response;
-              }).catch((err) => {
+              })
+              .catch((err) => {
                 // Network request failed, try to get it from the cache.
                 console.log(".. network failed, get from cache ..")
                 return cache.match(evt.request);
@@ -143,10 +144,10 @@ self.addEventListener('fetch', (evt) => {
     return;
   }
   evt.respondWith(
-      caches.open(CACHE_NAME).then((cache) => {
+      caches.open(CACHE_NAME).then( (cache) => {
         return cache.match(evt.request)
             .then((response) => {
-              console.log("caches open match")
+              console.log("[fetch] caches open match")
               return response || fetch(evt.request);
             });
       })

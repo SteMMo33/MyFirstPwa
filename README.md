@@ -1,8 +1,10 @@
 # MyFirstPwa partendo da articolo Google:
 ## Your First Progressive Web App Codelab
 
-These are the resource files needed for the
-[Your First Progressive Web App][codelab] codelab.
+# INTRO
+L'app è diventata un visualizzatore di meteo
+con dati provenienti da OpenWeather
+
 
 In this codelab, you'll  build a weather web app using Progressive Web App
 techniques. Your app will:
@@ -13,6 +15,7 @@ techniques. Your app will:
   at runtime to improve performance.
 * Be installable, using a web app manifest and the `beforeinstallprompt` event
   to notify the user it's installable.
+  Su Android appare sia l'icona nella pagina che un'icona nel browser.
 
 ## Mie modifiche
 * Ho creato il progetto seguendo le istruzioni del codelab.
@@ -29,11 +32,13 @@ Lancio del server locale con ```node server.js``` - il server si pone in attesa 
 
 ### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
-### Live server
+## Live server
 La prova di test con server locale è stata fatta anche con l'estensione *Live Server* di *Visual Studio Code* che monta un server sulla porta 4500. 
 Per spostare la root del webserver sulla cartella *public*, ed eventualmente cambiare il numero di porta, è stato necessario inserire un file di configurazione in *.vscode/settings.json*
+Premere la scritta 'Live server' nell'angolo in basso a dx di VSCode per lanciare anche Chrome.
 
-## Firebase
+
+## Esportazione per Firebase
 
 Registrato il progetto in https://myfirstpwa-37305.web.app/
 Da questo indirizzo è possibile installare l'app sul telefonino.
@@ -44,7 +49,8 @@ Comando per il deploy:
 firebase deploy
 ```
 
-## Dati Meteo
+
+# Dati Meteo DarkSky
 * Aggiunto in lista anche la posizione di Felino. La richiesta in pagina web è la seguente (con temperature in °C):
 https://darksky.net/forecast/44.69,10.24/ca12/en
 * La chiamata per i dati in formato JSON è: https://api.darksky.net/forecast/622f1b931d60c59311cb7d3f166ad4b8/37.8267,-122.4233 dove il valore numerico è la mia chiave personale.
@@ -53,6 +59,22 @@ https://darksky.net/forecast/44.69,10.24/ca12/en
 
 La app sembra non richiedere i dati al server DarkSky in quanto non definisce una URL assoluta, ma relativa al sito corrente (???).
 
+## Darksky
+Dark Sky’s features have been integrated into Apple Weather. 
+
+**Support for the Dark Sky API ended on March 31, 2023**
+
+## Problema chiave DarkSky
+Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
+Sembra essere necessario installare il plugin dotnet di node con:
+```
+npm install dotenv
+```
+**DarkSky - removed**
+
+
+
+# Problema CORS
 La richiesta dei dati viene eseguita da server.js !! Forse per evitare il problema del CORS ?? Ma poi l'app sul mobile come fa ??
 Risposta dell'autore ad una mia richiesta su GitHub:
 ```
@@ -86,11 +108,15 @@ I will list these workarounds in my order of preference from best to worst.
 
 ```
 
+# OpenWeatherMap
+
 Soluzione:
 
 Cambio server e provo a richiedere dati a https://openweathermap.org/API.
 
-# OpenWeatherMap
+Mi sono registrato e ho ottenuto la chiave:
+APPID = 'b82ec2f9c61a9f11fbe81ec3d5100227'
+
 Sito https://openweathermap.org/
 
 ## Autenticazione
@@ -113,13 +139,6 @@ Link icone doppie: https://openweathermap.org/img/wn/13d@2x.png
 Ci sono anche quelle notturne sostituendo la lettera 'd' con la lettera 'n'.
 
 
-## Problema chiave
-Il server.js dovrebbe recuperare la chiave per DarkSky dal file .env ma non la riceve ..
-Sembra essere necessario installare il plugin dotnet di node con:
-```
-npm install dotenv
-```
-**DarkSky - removed**
 
 
 # Geolocalizzazione
@@ -162,11 +181,3 @@ node server.js
 
 
 
-## Getting started
-
-To get started, check out the [codelab instruction][codelab]
-
-
-
-[codelab]: https://codelabs.developers.google.com/codelabs/your-first-pwapp/
-[git-issue]: https://github.com/googlecodelabs/your-first-pwapp/issues

@@ -3,17 +3,6 @@
  * Your First PWA Codelab (https://g.co/codelabs/pwa)
  * Copyright 2019 Google Inc. All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License
  */
 'use strict';
 
@@ -21,6 +10,9 @@ const weatherApp = {
   selectedLocations: {},
   addDialogContainer: document.getElementById('addDialogContainer'),
 };
+
+const APPID = 'b82ec2f9c61a9f11fbe81ec3d5100227'
+
 
 /**
  * Toggles the visibility of the add location dialog box.
@@ -58,7 +50,7 @@ function addLocation() {
 					console.log("read .then >")
 					console.log(body)
 					var result = body[0]
-            	document.querySelector("#inputLat").value = result.lat
+          document.querySelector("#inputLat").value = result.lat
 					document.querySelector("#inputLong").value = result.lon
 					document.querySelector("#inputDesc").textContent = result.display_name
 					document.querySelector("#inputName").value = ""
@@ -224,7 +216,7 @@ function renderForecast7(card, data) {
     console.log("Render7 skipped!")
     return;
   }
-/* Esempio risposta: 16 day forecast
+/* Esempio risposta: 7 day forecast
   {
     "city":{"id":5105608,"name":"Union",
       "coord":{"lon":-74.2632,"lat":40.6976},
@@ -254,10 +246,11 @@ function renderForecast7(card, data) {
     }
 */
 
-  // Render the next 7 days.
+  // Render the next 7 days - recupera i 7 div dei giorni
   const futureTiles = card.querySelectorAll('.future .oneday');
   futureTiles.forEach((tile, index) => {
     
+    console.log("[render7]", data)
     const forecast = data.list[index];
     const forecastFor = luxon.DateTime
         .fromSeconds(forecast.dt)
@@ -279,10 +272,6 @@ function renderForecast7(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  /* Versione DarkSky via server locale
-  var server = "http://192.168.5.70"
-  var url = server + `/forecast/${coords}`;
-  */
 
   var coord = coords.split(',')
 
@@ -328,6 +317,33 @@ function getForecast7FromNetwork(coords) {
       });
 }
 
+
+/**
+ * Get's the latest hourly forecast data from the network.
+ *
+ * @param {string} coords Location object to.
+ * @return {Object} The weather forecast, if the request fails, return null.
+ */
+ function getHourlyForecastFromNetwork(coords) {
+
+	var coord = coords.split(',')
+  
+	// 4 day forecast data - 96 timestamps
+	var url7 = `https://api.openweathermap.org/data/2.5/forecast/hourly?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+  
+	console.log("[getHourlyForecastFromNetwork] FetchH coords = '"+coords+"' - URL: "+url7)
+	return fetch(url7)
+		.then((response) => {
+		  console.log("fetchh .then : " + response)
+		  return response.json();
+		})
+		.catch(() => {
+		  console.error("fetchh .catch")
+		  return null;
+		});
+  }
+
+  
 /**
  * Get's the cached forecast data from the caches object.
  *
@@ -335,11 +351,10 @@ function getForecast7FromNetwork(coords) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromCache(coords) {
-  // CODELAB: Add code to get weather forecast from the caches object.
-  if (!('caches' in window)) {
-    console.log("No caches trovate");
-    return null;
-  }
+	if (!('caches' in window)) {
+    	console.log("No caches trovate");
+    	return null;
+  	}
   const url = `${window.location.origin}/forecast/${coords}`;
   console.log("Cache URL: "+url)
   return caches.match(url)
@@ -355,6 +370,14 @@ function getForecastFromCache(coords) {
         return null;
       });
 }
+
+
+function getHourly()
+{
+	console.log("[getHourly] TODO");
+}
+
+
 
 /**
  * Get's the HTML element for the weather forecast, or clones the template
@@ -372,7 +395,11 @@ function getForecastCard(location) {
   const newCard = document.getElementById('weather-template').cloneNode(true);
   newCard.querySelector('.location').textContent = location.label;
   newCard.setAttribute('id', id);
-  newCard.querySelector('.remove-city').addEventListener('click', removeLocation);
+
+  //era newCard.querySelector('.remove-city').addEventListener('click', removeLocation);
+  newCard.querySelector('#btnRemove').addEventListener('click', removeLocation);
+  newCard.querySelector('#btnHourly').addEventListener('click', getHourly);
+  
   document.querySelector('main').appendChild(newCard);
   newCard.removeAttribute('hidden');
   return newCard;
@@ -421,7 +448,7 @@ function saveLocationList(locations) {
 
 /**
  * Loads the list of saved location.
- *
+ * Il salvataggio è in localStorage
  * @return {Array}
  */
 function loadLocationList() {
