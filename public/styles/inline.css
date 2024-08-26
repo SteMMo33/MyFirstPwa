@@ -412,6 +412,22 @@ body {
   text-transform: uppercase;
 }
 
+/* -- Page */
+
+.page {
+  display: none;
+  height: 100%;
+}
+
+.remove-page {
+  float: right;
+  margin: 10px;
+}
+
+.pnlH {
+  margin: 15px;
+}
+
 /**
  * Weather forecast card
  */
@@ -438,9 +454,10 @@ body {
 
 .weather-card #btnHourly {
   background-color: transparent;
-  border: none;
+  border: 1px solid blue;
+  border-radius: 5px;
   float: right;
-  font-size: large;
+  font-size: 70%;
 }
 
 .weather-card .location {
@@ -467,7 +484,7 @@ body {
 }
 
 .weather-card .current .visual .scale {
-  font-size: 0.5em;
+  font-size: 0.4em;
   vertical-align: super;
 }
 
@@ -482,6 +499,7 @@ body {
 
 .weather-card .future {
   display: flex;
+  padding-top: 10px;
 }
 
 .weather-card .future .oneday {
@@ -497,7 +515,8 @@ body {
 }
 
 .weather-card .future .oneday .temp-high,
-.weather-card .future .oneday .temp-low {
+.weather-card .future .oneday .temp-low
+/*.weather-card .future .oneday .cloud*/ {
   display: inline-block;
 }
 

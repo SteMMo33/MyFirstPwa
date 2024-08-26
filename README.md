@@ -38,7 +38,7 @@ Per spostare la root del webserver sulla cartella *public*, ed eventualmente cam
 Premere la scritta 'Live server' nell'angolo in basso a dx di VSCode per lanciare anche Chrome.
 
 
-## Esportazione per Firebase
+# Esportazione per Firebase
 
 Registrato il progetto in https://myfirstpwa-37305.web.app/
 Da questo indirizzo è possibile installare l'app sul telefonino.
@@ -48,9 +48,19 @@ Comando per il deploy:
 ```
 firebase deploy
 ```
+Nel caso in cui si ricevesse l'errore seguente:
+```
+stefano@GhilbaDebian:~/Scrivania/Progetti/pwa/MyFirstPwa$ firebase deploy
+
+Error: Failed to get Firebase project myfirstpwa-37305. Please make sure the project exists and your account has permission to access it.
+```
+è possibile correggere lo stato con il comando:
+```
+firebase login --reauth
+```
 
 
-# Dati Meteo DarkSky
+# Dati Meteo DarkSky - REMOVED
 * Aggiunto in lista anche la posizione di Felino. La richiesta in pagina web è la seguente (con temperature in °C):
 https://darksky.net/forecast/44.69,10.24/ca12/en
 * La chiamata per i dati in formato JSON è: https://api.darksky.net/forecast/622f1b931d60c59311cb7d3f166ad4b8/37.8267,-122.4233 dove il valore numerico è la mia chiave personale.
@@ -139,6 +149,10 @@ Link icone doppie: https://openweathermap.org/img/wn/13d@2x.png
 Ci sono anche quelle notturne sostituendo la lettera 'd' con la lettera 'n'.
 
 
+## API
+La versione originale è stata sviluppata con le API 2.5.
+Al momento (ago 2024) sono attive le One Call API 3.0.
+
 
 
 # Geolocalizzazione
@@ -154,11 +168,14 @@ https://opencagedata.com - RESTful API - Free API Key - Max 2500 richieste al gi
 
 https://www.gps-coordinates.net/api/Felino - Nessuna registrazione - Problema CORS
 
+https://openweathermap.org/api/geocoding-api è presente sul sito stesso delle info un servizio di geolocalizzazione.
+
+
 # Domande
 
 ## Come cambiare versione dell'app ?? 
 TBD
-
+File manifest.json - campo: *version*
 
 ## Come debuggare app ?
 Lo strumento principale per fare debug della app è Chrome DevTool che interagisce con Chrome.
@@ -167,17 +184,23 @@ Un altro tool per la verifica della 'bontà' dell'applicazione è LightHouse, se
 
 Anche Firefox ha il supporto per i ServiceWorkers (49+) ma normalmente è disattivato. Deve essere abilitato nella pagina **about:config** alla voce **dom.serviceWorkers.enable**.
 
-#### Mia soluzione
-Come prima soluzione il progetto è corredato da un semplice server sviluppato in Javascript per nodeJS.
+Se si usa come editor VisualStudioCode è possibile lanciare una sessione di server permendo la scritta GoLive.
+questo lancia una istanza di Chrome con cui è possibile anche limitare l'ampiezza della visualizzazione a quelle tipiche di un cellulare.
+
+
+
+## Soluzione iniziale per il server
+Come prima soluzione/sviluppo il progetto è corredato da un semplice server sviluppato in Javascript per nodeJS.
 Per installare tutti i moduli necessari al funzionamento è necessario lanciare il comando:
 ```
 npm install
 ```
-Queso comando ha creato la cartella node_modules (non è sotto il controllo di GIT) e scaricato i moduli necessari. 
+Questo comando ha creato la cartella node_modules (non è sotto il controllo di GIT) e scaricato i moduli necessari. 
 Per lanciare il server (in ascolto sulla porta **8000**) battere:
 ```
 node server.js
 ```
 
+**Funziona con DARKSKY !! - REMOVED !!**
 
 

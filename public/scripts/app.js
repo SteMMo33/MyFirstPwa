@@ -28,8 +28,8 @@ function addLocation() {
 
   var geo
   var label = "??"
-  var lat = document.getElementById("inputLat").value // document.body.querySelector("inputLat").textContent
-  var lon = document.getElementById("inputLong").value // document.body.querySelector("inputLong").textContent
+  var lat = document.getElementById("inputLat").value
+  var lon = document.getElementById("inputLong").value
 
   // Richiesta per nome città
   var city = document.querySelector("#inputName").value;
@@ -38,31 +38,38 @@ function addLocation() {
 		var url = "http://www.gps-coordinates.net/api/"+city
 		*/
 
+    //TODO c'è una API anche su openWheather !!
 		var url = "https://eu1.locationiq.com/v1/search.php?key=a9e750a5eb2f83&q="+city+"&format=json"
 
    	console.log("[addLocation] Fetch city = '"+city+"' - URL: "+url)
    	return fetch(url)
-        	.then( (response) => {
-			 	console.log("Fetch .then > "+ typeof response)
+      .then( (response) => {
+			 	console.log("Fetch .then")
 				console.log(response)
-				
-				var j = response.json().then( (body) => {
-					console.log("read .then >")
+				// Risultati nel body
+				response.json().then( (body) => {
+					console.log("json .then")
 					console.log(body)
-					var result = body[0]
-          document.querySelector("#inputLat").value = result.lat
-					document.querySelector("#inputLong").value = result.lon
-					document.querySelector("#inputDesc").textContent = result.display_name
-					document.querySelector("#inputName").value = ""
-				})
+          if (response.status === 200){
+            var result = body[0]
+            document.querySelector("#inputLat").value = result.lat
+            document.querySelector("#inputLong").value = result.lon
+            document.querySelector("#inputDesc").textContent = "Risultati: "+body.length+"<br/>"+result.display_name
+            //? document.querySelector("#inputName").value = ""
+          }
+          else {
+            document.querySelector("#inputDesc").textContent = "Status: "+response.status+"<br/>"+response.body.error
+          }
+        })
 				.catch( (err) => {
-					console.log("read .catch "+err)
+					console.log("json .catch "+err)
 				})
-        	})
-      	.catch( (err) => {
+      })
+     	.catch( (err) => {
 				console.error("fetch .catch")
 				console.log(err)
-         	return null;
+        document.querySelector("#inputDesc").textContent = "Err fetch "+err
+        return null;
 			});  		 
   }
 
@@ -104,17 +111,20 @@ function addLocation() {
  * @param {Event} evt
  */
 function removeLocation(evt) {
-  console.log(evt)
+  console.log("[removeLoc]", evt)
   
-  var el;
-  if (evt.srcElement) el = evt.srcElement
-  if (evt.originalTarget) el = evt.originalTarget
-  const parent = el.parentElement;
-  parent.setAttribute('hidden', true);
+  //TODO aggiungere richiesta Sei sicuro ?
+  if (confirm( "Sei sicuro?")){
+    var el;
+    if (evt.target) el = evt.target
+    if (evt.originalTarget) el = evt.originalTarget
+    const parent = el.parentElement;
+    parent.setAttribute('hidden', true);
 
-  if (weatherApp.selectedLocations[parent.id]) {
-    delete weatherApp.selectedLocations[parent.id];
-    saveLocationList(weatherApp.selectedLocations);
+    if (weatherApp.selectedLocations[parent.id]) {
+      delete weatherApp.selectedLocations[parent.id];
+      saveLocationList(weatherApp.selectedLocations);
+    }
   }
 }
 
@@ -194,6 +204,7 @@ function renderForecast(card, data) {
   card.querySelector('.current .sunset .value').textContent = sunset;
 
   card.querySelector('.current .pressure .value').textContent = data.main.pressure;
+  card.querySelector('.current .cloud .value').textContent = data.clouds.all+"%";
 
   // If the loading spinner is still visible, remove it.
   const spinner = card.querySelector('.card-spinner');
@@ -247,11 +258,12 @@ function renderForecast7(card, data) {
 */
 
   // Render the next 7 days - recupera i 7 div dei giorni
+  console.log("[render7]", data)
   const futureTiles = card.querySelectorAll('.future .oneday');
   futureTiles.forEach((tile, index) => {
     
-    console.log("[render7]", data)
     const forecast = data.list[index];
+    // console.log("[render7][day]", forecast)
     const forecastFor = luxon.DateTime
         .fromSeconds(forecast.dt)
         // .setZone(data.city.timezone)
@@ -261,6 +273,7 @@ function renderForecast7(card, data) {
     
     tile.querySelector('.temp-high .value').textContent = Math.round(forecast.temp.max);
     tile.querySelector('.temp-low .value').textContent = Math.round(forecast.temp.min);  
+    tile.querySelector('.cloud .value').textContent = Math.round(forecast.clouds)+"%";
   });
 
 }
@@ -303,12 +316,12 @@ function getForecast7FromNetwork(coords) {
   //var url = `https://api.openweathermap.org/data/2.5/forecast?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
 
   // 16 day forecast data
-  var url7 = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+  var url7 = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=${APPID}`
 
   console.log("[getForecast7FromNetwork] Fetch7 coords = '"+coords+"' - URL: "+url7)
   return fetch(url7)
       .then((response) => {
-        console.log("fetch7 .then : " + response)
+        console.log("fetch7 .then : ", response)
         return response.json();
       })
       .catch(() => {
@@ -329,16 +342,20 @@ function getForecast7FromNetwork(coords) {
 	var coord = coords.split(',')
   
 	// 4 day forecast data - 96 timestamps
-	var url7 = `https://api.openweathermap.org/data/2.5/forecast/hourly?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
+  // Non previsto per il piano gratuito !!!
+	// var url7 = `https://api.openweathermap.org/data/2.5/forecast/hourly?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=${APPID}`
+  // Usato il 5days/3hours
+  // Risultato con 40 item in list = 5 x 8 orari/g
+	var url7 = `https://api.openweathermap.org/data/2.5/forecast?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=${APPID}`
   
 	console.log("[getHourlyForecastFromNetwork] FetchH coords = '"+coords+"' - URL: "+url7)
 	return fetch(url7)
 		.then((response) => {
-		  console.log("fetchh .then : " + response)
+		  console.log("fetchH .then : ", response)
 		  return response.json();
 		})
 		.catch(() => {
-		  console.error("fetchh .catch")
+		  console.error("fetchH .catch")
 		  return null;
 		});
   }
@@ -372,9 +389,49 @@ function getForecastFromCache(coords) {
 }
 
 
-function getHourly()
+function getHourly(event)
 {
-	console.log("[getHourly] TODO");
+  var el = event.currentTarget.parentElement
+  var coords = el.getAttribute("coords");
+	getHourlyForecastFromNetwork(coords).then(
+    (data) => {
+      console.log("[getHourly] ok: ",data)
+      renderForecastHourly(data)
+      showPage('pageHourly')
+    },
+    (err) => {
+      console.log("[getHourly] err: ",err)
+    }
+  )
+}
+
+
+// Riempie la pageHourly con i dati ricevuti
+function renderForecastHourly(data) {
+  console.log("[renderForecastHourly]")
+  if (!data) {
+    // There's no data, skip the update.
+    console.log("RenderForecastH skipped!")
+    return;
+  }
+  const page = document.querySelector("#pageHourly")
+  page.querySelector("#name").textContent = data.city.name
+  page.querySelector("#country").textContent = "Nazione: "+data.city.country
+  page.querySelector("#population").textContent = "Popol: "+data.city.population
+  page.querySelector("#sunrise").textContent = data.city.sunrise
+
+  const panel = page.querySelector("#panel")
+  var i = 0
+  for ( i=0; i < 8; i++){
+    const datai = data.list[i]
+    var el = "<div class='pnlH'>"
+    el+= "<div>"+datai.dt_txt+"</div>"
+    el+= "<div>"+datai.weather[0].description+"</div>"
+    el+= "<div>Temp: "+datai.main.temp+" °C</div>"
+    el+= "<div>Umid: "+datai.main.humidity+" %</div>"
+    el += "</div>"
+    panel.insertAdjacentHTML("beforeend", el)
+  }
 }
 
 
@@ -394,12 +451,13 @@ function getForecastCard(location) {
   }
   const newCard = document.getElementById('weather-template').cloneNode(true);
   newCard.querySelector('.location').textContent = location.label;
-  newCard.setAttribute('id', id);
+  newCard.setAttribute('id', id); //?
+  newCard.setAttribute('coords', id);
 
   //era newCard.querySelector('.remove-city').addEventListener('click', removeLocation);
   newCard.querySelector('#btnRemove').addEventListener('click', removeLocation);
   newCard.querySelector('#btnHourly').addEventListener('click', getHourly);
-  
+
   document.querySelector('main').appendChild(newCard);
   newCard.removeAttribute('hidden');
   return newCard;
@@ -469,6 +527,24 @@ function loadLocationList() {
   }
   return locations;
 }
+
+
+
+function hidePages()
+{
+    var els = document.querySelectorAll('.page')
+    for (var x = 0; x < els.length; x++)
+        els[x].style.display = 'none';
+}
+
+
+function showPage(page)
+{
+    console.log('showPage '+page)
+    hidePages()
+    document.getElementById(page).style.display='block';
+}
+
 
 /**
  * Initialize the app, gets the list of locations from local storage, then
