@@ -49,13 +49,12 @@ function addLocation() {
 				// Risultati nel body
 				response.json().then( (body) => {
 					console.log("json .then")
-					console.log(body)
           if (response.status === 200){
             var result = body[0]
             document.querySelector("#inputLat").value = result.lat
             document.querySelector("#inputLong").value = result.lon
-            document.querySelector("#inputDesc").textContent = "Risultati: "+body.length+"<br/>"+result.display_name
-            //? document.querySelector("#inputName").value = ""
+            document.querySelector("#inputDesc").innerHTML = "<p>Risultati: "+body.length+"</p><p>"+result.display_name+"</p>"
+            document.querySelector("#inputName").value = "" // Cancella in modo da non entrare in questo if(city) ed aggiungere la località
           }
           else {
             document.querySelector("#inputDesc").textContent = "Status: "+response.status+"<br/>"+response.body.error
@@ -212,6 +211,13 @@ function renderForecast(card, data) {
     card.removeChild(spinner);
   }
 
+}
+
+
+
+function convertDate(date)
+{
+  return luxon.DateTime.fromSeconds(date).setZone("UTC").plus({ seconds: date.timezone}).toFormat('t');
 }
 
 /**
@@ -417,18 +423,23 @@ function renderForecastHourly(data) {
   const page = document.querySelector("#pageHourly")
   page.querySelector("#name").textContent = data.city.name
   page.querySelector("#country").textContent = "Nazione: "+data.city.country
-  page.querySelector("#population").textContent = "Popol: "+data.city.population
-  page.querySelector("#sunrise").textContent = data.city.sunrise
+  page.querySelector("#population").textContent = "Popolazione: "+data.city.population
+  page.querySelector("#sunrise").textContent = "Alba: "+convertDate(data.city.sunrise)
+  page.querySelector("#sunset").textContent = "Tramonto: "+convertDate(data.city.sunset)
 
   const panel = page.querySelector("#panel")
   var i = 0
-  for ( i=0; i < 8; i++){
+  for ( i=0; i < 10; i++){
     const datai = data.list[i]
+    const dat = new Date(datai.dt_txt)
+    const datl = luxon.DateTime.fromJSDate(dat)
     var el = "<div class='pnlH'>"
-    el+= "<div>"+datai.dt_txt+"</div>"
-    el+= "<div>"+datai.weather[0].description+"</div>"
+    el+= "<div style='text-align:center'>"+datl.toLocaleString(luxon.DateTime.DATE_FULL)+"</div>"
+    el+= "<div style='text-align:center'>"+datl.toLocaleString(luxon.DateTime.TIME_SIMPLE)+"</div>"
+    el+= "<div class='icon owm"+datai.weather[0].icon+"' style='height:40px; background-position:top;'></div>"
+    el+= "<div style='font-variant-caps:small-caps; font-weight: 700;text-align:center'>"+datai.weather[0].description+"</div>"
     el+= "<div>Temp: "+datai.main.temp+" °C</div>"
-    el+= "<div>Umid: "+datai.main.humidity+" %</div>"
+    el+= "<div>Umidit&agrave;: "+datai.main.humidity+" %</div>"
     el += "</div>"
     panel.insertAdjacentHTML("beforeend", el)
   }
@@ -535,12 +546,19 @@ function hidePages()
     var els = document.querySelectorAll('.page')
     for (var x = 0; x < els.length; x++)
         els[x].style.display = 'none';
+    document.querySelector("#butAdd").style.display = "none";
 }
 
 
+function showHome()
+{
+  hidePages()
+  document.querySelector("#butAdd").style.display = "block";
+}
+
 function showPage(page)
 {
-    console.log('showPage '+page)
+    console.log('showPage: '+page)
     hidePages()
     document.getElementById(page).style.display='block';
 }

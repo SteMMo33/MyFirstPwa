@@ -323,7 +323,7 @@ body {
   flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-top: 60px;
+  padding-top: 50px;
 }
 
 .main .fab {
@@ -426,6 +426,14 @@ body {
 
 .pnlH {
   margin: 15px;
+  box-shadow: 
+    0 2px 2px 0 rgba(0,0,0,0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    margin: 6px 2px;
+    padding: 8px;
+    background: white;
+    min-width: 180px;
 }
 
 /**
@@ -434,14 +442,14 @@ body {
 
 .weather-card {
   background: #fff;
-  border-radius: 2px;
+  border-radius: 10px;
   box-shadow:
     0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   margin: 16px;
-  padding: 16px;
+  padding: 12px;
   position: relative;
 }
 
@@ -458,6 +466,7 @@ body {
   border-radius: 5px;
   float: right;
   font-size: 70%;
+  padding: 4px;
 }
 
 .weather-card .location {
@@ -480,7 +489,7 @@ body {
 
 .weather-card .current .visual {
   display: flex;
-  font-size: 3em;
+  font-size: 2.8em;
 }
 
 .weather-card .current .visual .scale {
@@ -540,7 +549,7 @@ body {
   }
 
   .weather-card .current .visual {
-    font-size: 3em;
+    font-size: 2.8em;
   }
 
   .weather-card .future .oneday .icon {
