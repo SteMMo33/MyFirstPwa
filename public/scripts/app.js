@@ -18,7 +18,8 @@ const APPID = 'b82ec2f9c61a9f11fbe81ec3d5100227'
  * Toggles the visibility of the add location dialog box.
  */
 function toggleAddDialog() {
-  weatherApp.addDialogContainer.classList.toggle('visible');
+  weatherApp.addDialogContainer.classList.toggle('visible')
+  document.querySelector("#inputDesc").textContent = ""
 }
 
 /**
@@ -110,10 +111,9 @@ function addLocation() {
  * @param {Event} evt
  */
 function removeLocation(evt) {
-  console.log("[removeLoc]", evt)
   
-  //TODO aggiungere richiesta Sei sicuro ?
-  if (confirm( "Sei sicuro?")){
+  // Richiesta Sei sicuro ?
+  if (confirm( "Sei sicuro di voler cancellare?")){
     var el;
     if (evt.target) el = evt.target
     if (evt.originalTarget) el = evt.originalTarget
@@ -187,8 +187,8 @@ function renderForecast(card, data) {
   // if (data.minutely) card.querySelector('.description').textContent += " -> " + data.minutely.summary;
   
   const forecastFrom = luxon.DateTime.fromSeconds(data.dt).toFormat('DDDD t');
-  card.querySelector('.date').textContent = 
-    forecastFrom + " (locale: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t') + ")";
+  card.querySelector('.date').innerHTML = 
+    forecastFrom + "<br/>Ora locale: " + luxon.DateTime.fromSeconds(data.dt).setZone("UTC").plus({seconds:data.timezone}).toFormat('t');
 
   card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
   card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
@@ -362,6 +362,7 @@ function getForecast7FromNetwork(coords) {
 		})
 		.catch(() => {
 		  console.error("fetchH .catch")
+      document.querySelector("#name").innerHTML = "ERRORE"
 		  return null;
 		});
   }
@@ -434,8 +435,8 @@ function renderForecastHourly(data) {
     const dat = new Date(datai.dt_txt)
     const datl = luxon.DateTime.fromJSDate(dat)
     var el = "<div class='pnlH'>"
-    el+= "<div style='text-align:center'>"+datl.toLocaleString(luxon.DateTime.DATE_FULL)+"</div>"
-    el+= "<div style='text-align:center'>"+datl.toLocaleString(luxon.DateTime.TIME_SIMPLE)+"</div>"
+    el+= "<div style='text-align:center;font-size:0.8em'>"+datl.toLocaleString(luxon.DateTime.DATE_FULL)+"</div>"
+    el+= "<div style='text-align:center;font-size:0.9em'>"+datl.toLocaleString(luxon.DateTime.TIME_SIMPLE)+"</div>"
     el+= "<div class='icon owm"+datai.weather[0].icon+"' style='height:40px; background-position:top;'></div>"
     el+= "<div style='font-variant-caps:small-caps; font-weight: 700;text-align:center'>"+datai.weather[0].description+"</div>"
     el+= "<div>Temp: "+datai.main.temp+" °C</div>"
