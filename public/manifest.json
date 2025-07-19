@@ -1,7 +1,7 @@
 {
-    "name": "Weather 2024",
-    "short_name": "Weather PWA",
-    "version": "0.97",
+    "name": "Weather 2025.07",
+    "short_name": "Weather 2025.07",
+    "version": "0.98",
     "icons": [{
       "src": "/images/icons/icon-128x128.png",
         "sizes": "128x128",
@@ -31,6 +31,6 @@
     "display": "standalone",
     "background_color": "#3E4EB8",
     "theme_color": "#2F3BA2",
-    "description": "Descrizione MyAPP OW"
+    "description": "Descrizione MyAPP"
   }
   

@@ -1,10 +1,9 @@
 # MyFirstPwa partendo da articolo Google:
 ## Your First Progressive Web App Codelab
 
-# INTRO
+## INTRO
 L'app è diventata un visualizzatore di meteo
 con dati provenienti da OpenWeather
-
 
 In this codelab, you'll  build a weather web app using Progressive Web App
 techniques. Your app will:
@@ -28,11 +27,12 @@ techniques. Your app will:
 * Perchè non funziona se lanciato sul server di Google ? Perchè richiede la fetch in locale https://myfirstpwa-37305.web.app/forecast/40.7720232,-73.9732319 e non al server remoto (su PC lo esegue nodejs!!). 
 In ogni caso viene generato un errore 404 che non viene gestito correttamente ..
 
+## Modalità 1 - nodejs
 Lancio del server locale con ```node server.js``` - il server si pone in attesa sulla porta 8000.
 
-### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
+#### La connessione va fatta con http://localhost:8000/index.html - Nota: NON https o con 127.0.0.1 !!
 
-## Live server
+## Mdalità 2 - Live server
 La prova di test con server locale è stata fatta anche con l'estensione *Live Server* di *Visual Studio Code* che monta un server sulla porta 4500. 
 Per spostare la root del webserver sulla cartella *public*, ed eventualmente cambiare il numero di porta, è stato necessario inserire un file di configurazione in *.vscode/settings.json*
 Premere la scritta 'Live server' nell'angolo in basso a dx di VSCode per lanciare anche Chrome.

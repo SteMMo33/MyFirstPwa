@@ -196,7 +196,7 @@ function renderForecast(card, data) {
   card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
   // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
 
-  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise).setZone("UTC").plus({ seconds: data.timezone }).toFormat('t');
+  const sunrise = convertDate(data.sys.sunrise, data.timezone) // luxon.DateTime.fromSeconds(data.sys.sunrise).setZone("UTC").plus({ seconds: data.timezone }).toFormat('t');
   card.querySelector('.current .sunrise .value').textContent = sunrise;
 
   const sunset = luxon.DateTime.fromSeconds(data.sys.sunset).setZone("UTC").plus({ seconds: data.timezone}).toFormat('t');
@@ -215,9 +215,9 @@ function renderForecast(card, data) {
 
 
 
-function convertDate(date)
+function convertDate(date, offset)
 {
-  return luxon.DateTime.fromSeconds(date).setZone("UTC").plus({ seconds: date.timezone}).toFormat('t');
+  return luxon.DateTime.fromSeconds(date).setZone("UTC").plus({ seconds: offset}).toFormat('t');
 }
 
 /**
@@ -299,7 +299,7 @@ function getForecastFromNetwork(coords) {
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
   return fetch(url)
       .then( (response) => {
-        console.log("Fetch .then > " + response)
+        console.log("Fetch .then > ", response)
         return response.json();
       })
       .catch( () => {
@@ -425,22 +425,23 @@ function renderForecastHourly(data) {
   page.querySelector("#name").textContent = data.city.name
   page.querySelector("#country").textContent = "Nazione: "+data.city.country
   page.querySelector("#population").textContent = "Popolazione: "+data.city.population
-  page.querySelector("#sunrise").textContent = "Alba: "+convertDate(data.city.sunrise)
-  page.querySelector("#sunset").textContent = "Tramonto: "+convertDate(data.city.sunset)
+  page.querySelector("#sunrise").textContent = "Alba: "+convertDate(data.city.sunrise, data.city.timezone)
+  page.querySelector("#sunset").textContent = "Tramonto: "+convertDate(data.city.sunset, data.city.timezone)
 
   const panel = page.querySelector("#panel")
   var i = 0
   for ( i=0; i < 10; i++){
     const datai = data.list[i]
+    const dt = convertDate(datai.dt, data.city.timezone)
     const dat = new Date(datai.dt_txt)
     const datl = luxon.DateTime.fromJSDate(dat)
     var el = "<div class='pnlH'>"
     el+= "<div style='text-align:center;font-size:0.8em'>"+datl.toLocaleString(luxon.DateTime.DATE_FULL)+"</div>"
-    el+= "<div style='text-align:center;font-size:0.9em'>"+datl.toLocaleString(luxon.DateTime.TIME_SIMPLE)+"</div>"
+    el+= "<div style='text-align:center;font-size:0.8em'>"+dt+"</div>"
     el+= "<div class='icon owm"+datai.weather[0].icon+"' style='height:40px; background-position:top;'></div>"
     el+= "<div style='font-variant-caps:small-caps; font-weight: 700;text-align:center'>"+datai.weather[0].description+"</div>"
-    el+= "<div>Temp: "+datai.main.temp+" °C</div>"
-    el+= "<div>Umidit&agrave;: "+datai.main.humidity+" %</div>"
+    el+= "<div style='text-align:center;'>Temp: "+datai.main.temp.toFixed(1)+" °C</div>"
+    el+= "<div style='text-align:center;'>Umidit&agrave;: "+datai.main.humidity+" %</div>"
     el += "</div>"
     panel.insertAdjacentHTML("beforeend", el)
   }

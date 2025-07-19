@@ -22,7 +22,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenWeather PWA</title>
+  <title>Weather 2025.07</title>
   <meta name="codelab" content="your-first-pwa-ow">
   <link rel="stylesheet" type="text/css" href="/styles/inline.css">
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -31,9 +31,9 @@
   <link rel="manifest" href="/manifest.json">
 
   <!-- CODELAB: Add iOS meta tags and icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Weather PWA">
+  <meta name="apple-mobile-web-app-title" content="Weather 2025.07">
   <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
 
   <!-- CODELAB: Add description here -->
@@ -46,7 +46,7 @@
 <body>
 
   <header class="header">
-    <h1>OpenWeather PWA</h1>
+    <h1>Weather 2025.07</h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
   </header>
@@ -103,7 +103,7 @@
               <span class="value"></span>
           </div>
           <div class="pressure">
-            <span class="label">PrAtm:</span>
+            <span class="label">PrsAtm:</span>
             <span class="value"></span> hPa
           </div>
           <div class="cloud">
@@ -243,6 +243,7 @@
     <div id="sunset"></div>
     <div id="panel" style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
     </div>
+    <button id='btnCloseHourlyPageBottom' class="remove-page" style="color:red; margin-top: 20px; width: calc(100% - 20px); margin-left: 10px; margin-right: 10px; padding: 10px;" onclick="showHome();">Chiudi</button>
   </div>
 
   <script src="/scripts/luxon.min.js"></script><!-- Libreria per la gestione delle date -->
