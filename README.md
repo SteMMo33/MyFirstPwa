@@ -201,6 +201,6 @@ Per lanciare il server (in ascolto sulla porta **8000**) battere:
 node server.js
 ```
 
-**Funziona con DARKSKY !! - REMOVED !!**
+**Funziona con DARKSKY - NON PIU' !! - REMOVED !!**
 
 

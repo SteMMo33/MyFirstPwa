@@ -429,6 +429,9 @@ function renderForecastHourly(data) {
   page.querySelector("#sunset").textContent = "Tramonto: "+convertDate(data.city.sunset, data.city.timezone)
 
   const panel = page.querySelector("#panel")
+  // Clear existing forecast panels
+  panel.querySelectorAll('.pnlH').forEach(el => el.remove())
+  
   var i = 0
   for ( i=0; i < 10; i++){
     const datai = data.list[i]
